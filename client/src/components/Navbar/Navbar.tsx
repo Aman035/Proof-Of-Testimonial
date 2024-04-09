@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
@@ -11,9 +11,33 @@ const navigation = [
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  // Handle scroll event
+  const handleScroll = () => {
+    if (window.scrollY > 0) {
+      setIsScrolled(true)
+    } else {
+      setIsScrolled(false)
+    }
+  }
+
+  // Set up event listener for scroll
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll)
+
+    // Clean up
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
 
   return (
-    <header className="absolute inset-x-0 top-0 z-50">
+    <header
+      className={`sticky top-0 z-50 ${
+        isScrolled ? 'bg-white/80 backdrop-blur shadow-sm' : 'bg-transparent'
+      }`}
+    >
       <nav
         className="flex items-center justify-between p-6 lg:px-8"
         aria-label="Global"
