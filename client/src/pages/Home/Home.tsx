@@ -1,5 +1,13 @@
+import Hero from './sections/Hero'
+import Feature from './sections/feature'
+
 const Home = () => {
-  return <div>Home Page</div>
+  return (
+    <>
+      <Hero />
+      <Feature />
+    </>
+  )
 }
 
 export default Home
