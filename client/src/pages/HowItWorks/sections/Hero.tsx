@@ -1,4 +1,4 @@
-import HeroBanner from '../../../assets/hero.svg'
+import HeroBanner from '../../../assets/howItWorks.svg'
 
 export default function Hero() {
   return (
@@ -18,15 +18,16 @@ export default function Hero() {
         </div>
         <div className="mx-auto max-w-2xl py-0 sm:py-3 lg:py-3">
           <div className="mb-8 flex justify-center">
-            <img src={HeroBanner} alt="Hero Banner" width="400" />
+            <img src={HeroBanner} alt="Hero Banner" width="350" />
           </div>
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-              Don't Just Trust, Verify
+              Our Verification Process
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              Bringing the power of on-chain attestation to your testimonials.
-              Ensuring every review is genuine and credible
+              Dive into our process: leveraging <b>SignX</b> for verifiable,
+              trustworthy testimonials. Understand the journey of each review,
+              from submission to validation.
             </p>
           </div>
         </div>
