@@ -1,12 +1,16 @@
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { Banner } from '../../../components'
 import { useState } from 'react'
+import { useWalletClient } from 'wagmi'
+import { config } from '../../../config'
+import { createAttestation, createOffChainClient } from '../../../helpers/signX'
 
 type IEditProfileProps = {
   userName?: string
   about?: string
   photo?: string
   coverPhoto?: string
+  lastAttestationId?: string | null
 }
 
 const EditProfile = ({
@@ -14,11 +18,15 @@ const EditProfile = ({
   about = '',
   photo = '',
   coverPhoto = '',
+  lastAttestationId = null,
 }: IEditProfileProps) => {
   const [profileName, setUserName] = useState(userName)
   const [profileAbout, setAbout] = useState(about)
   const [profilePhoto, setPhoto] = useState(photo)
   const [profileCoverPhoto, setCoverPhoto] = useState(coverPhoto)
+  const [error, setError] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const walletClient = useWalletClient()
 
   const newProfile = userName === ''
 
@@ -48,15 +56,46 @@ const EditProfile = ({
     }
   }
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    console.log('Saving data:', {
-      profileName,
-      profileAbout,
-      profilePhoto,
-      profileCoverPhoto,
-    })
-    // Here you would typically make an API call to save the updated profile data
+
+    try {
+      setError(false)
+      setLoading(true)
+
+      if (profileName.length < 3) {
+        setError(true)
+        setLoading(false)
+        return
+      }
+
+      /**
+       * PREPARE CUSTOM SIGNER FOR OFF-CHAIN SIGNING
+       */
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const customSigner: any = walletClient.data
+      customSigner.address = walletClient.data?.account.address
+
+      const client = createOffChainClient(customSigner)
+
+      await createAttestation(
+        config.profileSchemaId,
+        client,
+        {
+          userName: profileName,
+          about: profileAbout,
+          photo: profilePhoto,
+          coverPhoto: profileCoverPhoto,
+        },
+        lastAttestationId,
+        customSigner.address
+      )
+
+      setLoading(false)
+    } catch (error) {
+      console.error('Error creating profile:', error)
+      setLoading(false)
+    }
   }
 
   return (
@@ -82,7 +121,7 @@ const EditProfile = ({
                   htmlFor="username"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Username
+                  Username <span className="text-red-400">*</span>
                 </label>
                 <div className="mt-2">
                   <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600 sm:max-w-md">
@@ -98,6 +137,11 @@ const EditProfile = ({
                     />
                   </div>
                 </div>
+                {error && (
+                  <p className="mt-3 text-sm text-red-600">
+                    Username must be at least 3 characters long
+                  </p>
+                )}
               </div>
 
               <div className="col-span-full">
@@ -201,14 +245,12 @@ const EditProfile = ({
         </div>
 
         <div className="mt-6 flex items-center justify-end gap-x-6">
-          <button type="button" className="text-sm font-semibold text-gray-900">
-            Cancel
-          </button>
           <button
             type="submit"
+            disabled={loading}
             className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            Save
+            {loading ? 'Saving...' : 'Save'}
           </button>
         </div>
       </form>
