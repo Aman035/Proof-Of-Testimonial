@@ -1,0 +1,28 @@
+type Query {
+  """
+  Get a profile by address
+  """
+  profile(address: ID!): Profile
+}
+
+type Mutation {
+  """
+  Create a new profile
+  """
+  createProfile(input: CreateProfileInput!): Profile
+  """
+  Update an existing profile
+  """
+  updateProfile(input: CreateProfileInput!): Profile
+}
+
+type Profile {
+  address: String!
+  attestationId: String!
+  createdAt: String!
+}
+
+input CreateProfileInput {
+  address: String!
+  attestationId: String!
+}
