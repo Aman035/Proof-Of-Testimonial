@@ -1,31 +1,17 @@
-import ConnectWarn from './sections/ConnectWarn'
+import { useParams } from 'react-router-dom'
+import { ConnectWarn } from '../../components'
 import { useAccount } from 'wagmi'
-import EditProfile from './sections/EditProfile'
-import { useEffect, useState } from 'react'
-import { AttestationInfo } from '@ethsign/sp-sdk/dist/types/indexService'
-import { IndexService } from '@ethsign/sp-sdk'
-import { getLatestAttestation } from '../../helpers/signX'
-import { config } from '../../config'
 
 const Profile = () => {
-  const { isConnected, address } = useAccount()
-  const [latestAttestation, setLatestAttestaion] =
-    useState<null | AttestationInfo>(null)
+  const { isConnected } = useAccount()
+  const { address } = useParams<{ address: string }>()
 
-  useEffect(() => {
-    if (isConnected) {
-      getLatestAttestation(config.profileSchemaId, address as string).then(
-        (attestation: AttestationInfo | null) => {
-          setLatestAttestaion(attestation)
-        }
-      )
-    }
-  }, [isConnected])
+  console.log('address', address)
 
   return (
     <>
       {!isConnected && <ConnectWarn />}
-      {isConnected && latestAttestation === null && <EditProfile />}
+      <div>Profile Page for {address}</div>
     </>
   )
 }

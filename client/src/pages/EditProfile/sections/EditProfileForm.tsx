@@ -1,34 +1,55 @@
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { Banner } from '../../../components'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useWalletClient } from 'wagmi'
 import { config } from '../../../config'
-import { createAttestation, createOffChainClient } from '../../../helpers/signX'
+import {
+  createAttestation,
+  createOffChainClient,
+  getLatestAttestation,
+} from '../../../helpers/signX'
+import { AttestationInfo } from '@ethsign/sp-sdk/dist/types/indexService'
 
-type IEditProfileProps = {
-  userName?: string
-  about?: string
-  photo?: string
-  coverPhoto?: string
+type Data = {
+  userName: string
+  about: string
+  photo: string
+  coverPhoto: string
   lastAttestationId?: string | null
 }
 
-const EditProfile = ({
-  userName = '',
-  about = '',
-  photo = '',
-  coverPhoto = '',
-  lastAttestationId = null,
-}: IEditProfileProps) => {
-  const [profileName, setUserName] = useState(userName)
-  const [profileAbout, setAbout] = useState(about)
-  const [profilePhoto, setPhoto] = useState(photo)
-  const [profileCoverPhoto, setCoverPhoto] = useState(coverPhoto)
+const EditProfileForm = () => {
+  const [profile, setProfile] = useState<Data>({
+    userName: '',
+    about: '',
+    photo: '',
+    coverPhoto: '',
+    lastAttestationId: null,
+  })
+
   const [error, setError] = useState(false)
-  const [loading, setLoading] = useState(false)
+  const [saving, setSaving] = useState(false)
   const walletClient = useWalletClient()
 
-  const newProfile = userName === ''
+  useEffect(() => {
+    if (walletClient.data?.account.address) {
+      getLatestAttestation(
+        config.profileSchemaId,
+        walletClient.data?.account.address as string
+      ).then((attestation: AttestationInfo | null) => {
+        if (attestation) {
+          setProfile(JSON.parse(attestation.data))
+          setProfile((profile) => ({
+            ...profile,
+            lastAttestationId: attestation.id,
+          }))
+        }
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [walletClient.data?.account.address])
+
+  const newProfile = profile.lastAttestationId === null
 
   const handleProfilePhotoChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -37,7 +58,10 @@ const EditProfile = ({
     if (file) {
       const reader = new FileReader()
       reader.onload = (e) => {
-        setPhoto(e.target?.result as string)
+        setProfile((profile) => ({
+          ...profile,
+          photo: e.target?.result as string,
+        }))
       }
       reader.readAsDataURL(file)
     }
@@ -50,7 +74,10 @@ const EditProfile = ({
     if (file) {
       const reader = new FileReader()
       reader.onload = (e) => {
-        setCoverPhoto(e.target?.result as string)
+        setProfile((profile) => ({
+          ...profile,
+          coverPhoto: e.target?.result as string,
+        }))
       }
       reader.readAsDataURL(file)
     }
@@ -61,11 +88,11 @@ const EditProfile = ({
 
     try {
       setError(false)
-      setLoading(true)
+      setSaving(true)
 
-      if (profileName.length < 3) {
+      if (profile.userName.length < 3) {
         setError(true)
-        setLoading(false)
+        setSaving(false)
         return
       }
 
@@ -82,19 +109,19 @@ const EditProfile = ({
         config.profileSchemaId,
         client,
         {
-          userName: profileName,
-          about: profileAbout,
-          photo: profilePhoto,
-          coverPhoto: profileCoverPhoto,
+          userName: profile.userName,
+          about: profile.about,
+          photo: profile.photo,
+          coverPhoto: profile.coverPhoto,
         },
-        lastAttestationId,
+        profile.lastAttestationId,
         customSigner.address
       )
 
-      setLoading(false)
+      setSaving(false)
     } catch (error) {
       console.error('Error creating profile:', error)
-      setLoading(false)
+      setSaving(false)
     }
   }
 
@@ -132,8 +159,13 @@ const EditProfile = ({
                       autoComplete="username"
                       className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
                       placeholder="John Doe"
-                      value={profileName}
-                      onChange={(e) => setUserName(e.target.value)}
+                      value={profile.userName}
+                      onChange={(e) =>
+                        setProfile((profile) => ({
+                          ...profile,
+                          userName: e.target.value,
+                        }))
+                      }
                     />
                   </div>
                 </div>
@@ -157,8 +189,13 @@ const EditProfile = ({
                     name="about"
                     rows={3}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-600 sm:text-sm"
-                    value={profileAbout}
-                    onChange={(e) => setAbout(e.target.value)}
+                    value={profile.about}
+                    onChange={(e) =>
+                      setProfile((profile) => ({
+                        ...profile,
+                        about: e.target.value,
+                      }))
+                    }
                   />
                 </div>
                 <p className="mt-3 text-sm text-gray-600">
@@ -174,9 +211,9 @@ const EditProfile = ({
                   Photo
                 </label>
                 <div className="mt-2 flex items-center gap-x-3">
-                  {profilePhoto ? (
+                  {profile.photo ? (
                     <img
-                      src={profilePhoto}
+                      src={profile.photo}
                       alt="Profile"
                       className="h-12 w-12 rounded-full object-cover"
                     />
@@ -206,9 +243,9 @@ const EditProfile = ({
                 </label>
                 <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                   <div className="text-center">
-                    {profileCoverPhoto ? (
+                    {profile.coverPhoto ? (
                       <img
-                        src={profileCoverPhoto}
+                        src={profile.coverPhoto}
                         alt="Cover"
                         className="w-full object-cover"
                       />
@@ -247,10 +284,10 @@ const EditProfile = ({
         <div className="mt-6 flex items-center justify-end gap-x-6">
           <button
             type="submit"
-            disabled={loading}
+            disabled={saving}
             className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            {loading ? 'Saving...' : 'Save'}
+            {saving ? 'Saving...' : 'Save'}
           </button>
         </div>
       </form>
@@ -258,4 +295,4 @@ const EditProfile = ({
   )
 }
 
-export default EditProfile
+export default EditProfileForm
