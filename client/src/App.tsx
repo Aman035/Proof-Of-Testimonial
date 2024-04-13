@@ -5,7 +5,7 @@ import {
   useLocation,
 } from 'react-router-dom'
 import { Footer, Navbar } from './components'
-import { Home, Products, NotFound } from './pages'
+import { Home, Products, NotFound, HowItWorks, Profile } from './pages'
 import { useEffect } from 'react'
 import '@rainbow-me/rainbowkit/styles.css'
 import { getDefaultConfig, RainbowKitProvider } from '@rainbow-me/rainbowkit'
@@ -46,6 +46,8 @@ const App = () => {
                   {/* Main content grows to take available space */}
                   <Route path="/" element={<Home />} />
                   <Route path="/products" element={<Products />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/how-it-works" element={<HowItWorks />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>
