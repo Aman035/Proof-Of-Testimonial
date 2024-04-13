@@ -1,5 +1,5 @@
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
-import { Banner } from '../../../components'
+import { Banner, Loader } from '../../../components'
 import { useEffect, useState } from 'react'
 import { useWalletClient } from 'wagmi'
 import { config } from '../../../config'
@@ -27,6 +27,7 @@ const EditProfileForm = () => {
     lastAttestationId: null,
   })
 
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
   const [saving, setSaving] = useState(false)
   const walletClient = useWalletClient()
@@ -37,6 +38,7 @@ const EditProfileForm = () => {
         config.profileSchemaId,
         walletClient.data?.account.address as string
       ).then((attestation: AttestationInfo | null) => {
+        setLoading(false)
         if (attestation) {
           setProfile(JSON.parse(attestation.data))
           setProfile((profile) => ({
@@ -124,6 +126,8 @@ const EditProfileForm = () => {
       setSaving(false)
     }
   }
+
+  if (loading) return <Loader />
 
   return (
     <>
