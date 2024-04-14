@@ -9,6 +9,8 @@ import {
   getLatestAttestation,
 } from '../../../helpers/signX'
 import { AttestationInfo } from '@ethsign/sp-sdk/dist/types/indexService'
+import { useNavigate } from 'react-router-dom'
+import { submitPassport } from '../../../helpers/gitcoin'
 
 type Data = {
   userName: string
@@ -31,6 +33,7 @@ const EditProfileForm = () => {
   const [error, setError] = useState(false)
   const [saving, setSaving] = useState(false)
   const walletClient = useWalletClient()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (walletClient.data?.account.address) {
@@ -107,6 +110,8 @@ const EditProfileForm = () => {
 
       const client = createOffChainClient(customSigner)
 
+      setLoading(true)
+
       await createAttestation(
         config.profileSchemaId,
         client,
@@ -120,10 +125,18 @@ const EditProfileForm = () => {
         customSigner.address
       )
 
+      // await for 15 sec
+      // attestations tak some time to be indexed
+      await new Promise((resolve) => setTimeout(resolve, 15000))
+
+      setLoading(false)
+
       setSaving(false)
+      navigate('/profile/' + customSigner.address)
     } catch (error) {
       console.error('Error creating profile:', error)
       setSaving(false)
+      setLoading(false)
     }
   }
 

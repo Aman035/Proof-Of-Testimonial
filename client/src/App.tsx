@@ -12,18 +12,19 @@ import {
   HowItWorks,
   Profile,
   EditProfile,
+  AddProduct,
 } from './pages'
 import { useEffect } from 'react'
 import '@rainbow-me/rainbowkit/styles.css'
 import { getDefaultConfig, RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import { WagmiProvider } from 'wagmi'
-import { mainnet, polygon, optimism, arbitrum, base } from 'wagmi/chains'
+import { gnosisChiado } from 'wagmi/chains'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 
 const config = getDefaultConfig({
   appName: 'Proof Of Testimonial',
   projectId: '7569cfee6ec721ba9f5c5e8df5d2e4c6',
-  chains: [mainnet, polygon, optimism, arbitrum, base],
+  chains: [gnosisChiado],
   ssr: true, // If your dApp uses server side rendering (SSR)
 })
 const queryClient = new QueryClient()
@@ -53,6 +54,7 @@ const App = () => {
                   {/* Main content grows to take available space */}
                   <Route path="/" element={<Home />} />
                   <Route path="/products" element={<Products />} />
+                  <Route path="/add-product" element={<AddProduct />} />
                   <Route path="/edit-profile" element={<EditProfile />} />
                   <Route path="/profile/:address" element={<Profile />} />
                   <Route path="/how-it-works" element={<HowItWorks />} />
