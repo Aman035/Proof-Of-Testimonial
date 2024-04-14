@@ -17,6 +17,11 @@ export const createOffChainClient = (signer: PrivateKeyAccount) => {
 
 export const createSchema = () => {}
 
+export const getAttestation = async (attestationId: string) => {
+  const indexService = new IndexService('testnet')
+  return await indexService.queryAttestation(attestationId)
+}
+
 /**
  * Get Latest Attestation from a attestor in a particular schema
  */

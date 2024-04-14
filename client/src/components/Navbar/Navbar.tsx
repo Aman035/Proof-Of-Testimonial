@@ -4,16 +4,24 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import './Navbar.css'
-
-const navigation = [
-  { name: 'Products', link: '/products' },
-  { name: 'Profile', link: '/profile' },
-  { name: 'How It Works', link: '/how-it-works' },
-]
+import { useAccount } from 'wagmi'
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+
+  const { isConnected, address } = useAccount()
+
+  const navigation = isConnected
+    ? [
+        { name: 'Products', link: '/products' },
+        { name: 'Profile', link: `/profile/${address}` },
+        { name: 'How It Works', link: '/how-it-works' },
+      ]
+    : [
+        { name: 'Products', link: '/products' },
+        { name: 'How It Works', link: '/how-it-works' },
+      ]
 
   // Handle scroll event
   const handleScroll = () => {
