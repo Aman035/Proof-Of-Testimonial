@@ -10,6 +10,7 @@ type Product = {
   url: string
   logo: string
   category: string
+  attestationId: string
 }
 const Protocols = () => {
   const [products, setProducts] = useState<Product[]>([])
@@ -30,7 +31,16 @@ const Protocols = () => {
     ).then((AttestationInfo) => {
       setTotal(AttestationInfo.total)
       setProducts(
-        AttestationInfo.rows.map((attestation) => JSON.parse(attestation.data))
+        AttestationInfo.rows.map((attestation) => {
+          const data = JSON.parse(attestation.data)
+          return {
+            name: data.name,
+            url: data.url,
+            logo: data.logo,
+            category: data.category,
+            attestationId: attestation.id,
+          }
+        })
       )
       setLoading(false)
     })
@@ -72,6 +82,7 @@ const Protocols = () => {
       <ul role="list" className="divide-y divide-gray-100">
         {products.map((protocol) => (
           <li
+            onClick={() => navigate(`/product/${protocol.attestationId}`)}
             key={protocol.url}
             className="flex justify-between gap-x-6 py-5 px-4 border border-gray-200 rounded-lg hover:scale-105 transition-transform duration-150 hover:cursor-pointer"
           >

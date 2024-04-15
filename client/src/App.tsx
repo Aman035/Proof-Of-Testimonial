@@ -13,6 +13,7 @@ import {
   Profile,
   EditProfile,
   AddProduct,
+  Product,
 } from './pages'
 import { useEffect } from 'react'
 import '@rainbow-me/rainbowkit/styles.css'
@@ -53,6 +54,7 @@ const App = () => {
                   {' '}
                   {/* Main content grows to take available space */}
                   <Route path="/" element={<Home />} />
+                  <Route path="/product/:attestationId" element={<Product />} />
                   <Route path="/products" element={<Products />} />
                   <Route path="/add-product" element={<AddProduct />} />
                   <Route path="/edit-profile" element={<EditProfile />} />
