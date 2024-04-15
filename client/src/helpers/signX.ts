@@ -15,8 +15,6 @@ export const createOffChainClient = (signer: PrivateKeyAccount) => {
   })
 }
 
-export const createSchema = () => {}
-
 export const getAttestation = async (attestationId: string) => {
   const indexService = new IndexService('testnet')
   return await indexService.queryAttestation(attestationId)
@@ -55,5 +53,18 @@ export const createAttestation = async (
     data,
     indexingValue,
     linkedAttestationId,
+  })
+}
+
+export const getAttestations = async (
+  schemaId: string,
+  page: number,
+  indexingValue?: string
+) => {
+  const indexService = new IndexService('testnet')
+  return await indexService.queryAttestationList({
+    schemaId,
+    indexingValue,
+    page: page,
   })
 }

@@ -1,22 +1,37 @@
 import { UserCircleIcon } from '@heroicons/react/24/solid'
 import { Loader } from '../../../components'
 import { useState } from 'react'
-// import { useWalletClient } from 'wagmi'
-// import { config } from '../../../config'
-// import {
-//   createAttestation,
-//   createOffChainClient,
-//   getLatestAttestation,
-// } from '../../../helpers/signX'
-// import { AttestationInfo } from '@ethsign/sp-sdk/dist/types/indexService'
+import { useWalletClient } from 'wagmi'
+import { config } from '../../../config'
 import { useNavigate } from 'react-router-dom'
+import { createAttestation, createOffChainClient } from '../../../helpers/signX'
 
 type Data = {
   name: string
   url: string
   about: string
   logo: string
+  category: string
 }
+
+const categories = [
+  'Attestation',
+  'Blockchain',
+  'CeFi',
+  'DAO',
+  'DeFi',
+  'Gaming',
+  'Governance',
+  'Identity',
+  'Infrastructure',
+  'Marketplace',
+  'NFT',
+  'Oracle',
+  'Privacy',
+  'Social',
+  'Storage',
+  'Wallet',
+]
 
 const AddProductForm = () => {
   const [product, setProduct] = useState<Data>({
@@ -24,12 +39,14 @@ const AddProductForm = () => {
     url: '',
     about: '',
     logo: '',
+    category: '',
   })
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
   const [saving, setSaving] = useState(false)
   const navigate = useNavigate()
+  const walletClient = useWalletClient()
 
   const handleproductPhotoChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -63,37 +80,35 @@ const AddProductForm = () => {
       // /**
       //  * PREPARE CUSTOM SIGNER FOR OFF-CHAIN SIGNING
       //  */
-      // // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      // const customSigner: any = walletClient.data
-      // customSigner.address = walletClient.data?.account.address
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const customSigner: any = walletClient.data
+      customSigner.address = walletClient.data?.account.address
 
-      // const client = createOffChainClient(customSigner)
+      const client = createOffChainClient(customSigner)
 
-      // setLoading(true)
+      setLoading(true)
 
-      // await submitPassport(customSigner.address)
-
-      // await createAttestation(
-      //   config.productSchemaId,
-      //   client,
-      //   {
-      //     userName: product.userName,
-      //     about: product.about,
-      //     photo: product.photo,
-      //     coverPhoto: product.coverPhoto,
-      //   },
-      //   product.lastAttestationId,
-      //   customSigner.address
-      // )
+      const { attestationId } = await createAttestation(
+        config.productSchemaId,
+        client,
+        {
+          name: product.name,
+          about: product.about,
+          logo: product.logo,
+          url: product.url,
+          category: product.category,
+        },
+        null,
+        product.name
+      )
 
       // await for 15 sec
       // attestations tak some time to be indexed
       await new Promise((resolve) => setTimeout(resolve, 15000))
 
       setLoading(false)
-
       setSaving(false)
-      navigate('/product/' + 'PRODUCT_ID')
+      navigate('/product/' + attestationId)
     } catch (error) {
       console.error('Error creating product:', error)
       setSaving(false)
@@ -130,8 +145,8 @@ const AddProductForm = () => {
                   <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600 sm:max-w-md">
                     <input
                       type="text"
-                      name="username"
-                      id="username"
+                      name="name"
+                      id="name"
                       autoComplete="product name"
                       className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
                       placeholder="Proof Of Testimonials"
@@ -139,7 +154,7 @@ const AddProductForm = () => {
                       onChange={(e) =>
                         setProduct((product) => ({
                           ...product,
-                          userName: e.target.value,
+                          name: e.target.value,
                         }))
                       }
                     />
@@ -235,6 +250,36 @@ const AddProductForm = () => {
                       onChange={handleproductPhotoChange}
                     />
                   </label>
+                </div>
+              </div>
+
+              <div className="col-span-full">
+                <label
+                  htmlFor="category"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Category
+                </label>
+                <div className="mt-2">
+                  <select
+                    id="category"
+                    name="category"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm"
+                    value={product.category}
+                    onChange={(e) =>
+                      setProduct((product) => ({
+                        ...product,
+                        category: e.target.value,
+                      }))
+                    }
+                  >
+                    <option value="">Select a category</option>
+                    {categories.map((category, index) => (
+                      <option key={index} value={category}>
+                        {category}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
             </div>

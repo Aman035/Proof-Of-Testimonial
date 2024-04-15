@@ -10,7 +10,6 @@ import {
 } from '../../../helpers/signX'
 import { AttestationInfo } from '@ethsign/sp-sdk/dist/types/indexService'
 import { useNavigate } from 'react-router-dom'
-import { submitPassport } from '../../../helpers/gitcoin'
 
 type Data = {
   userName: string
