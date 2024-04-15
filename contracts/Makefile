@@ -31,7 +31,8 @@ deploy:
 deploy-gnosis-chiado:
 	@forge script script/DeployProofOfTestmonials.s.sol:DeployProofOfTestimonials --rpc-url $(GNOSIS_CHIADO_RPC_URL) --legacy --private-key $(PRIVATE_KEY) --broadcast
 
-deploy-neon-devnwt:
-	@forge script script/DeployProofOfTestmonials.s.sol:DeployProofOfTestimonials --rpc-url $(NEON_DEVNET_RPC_URL) --legacy --private-key $(PRIVATE_KEY) --broadcast
+deploy-neon-devnet:
+	@forge script script/DeployProofOfTestmonials.s.sol:DeployProofOfTestimonials --rpc-url $(NEON_DEVNET_RPC_URL) --legacy --private-key $(PRIVATE_KEY) --broadcast --skip-simulation
 
-
+flatten:
+	@forge flatten --output src/Flat/ProofOfTestimonials.sol src/ProofOfTestimonials.sol
