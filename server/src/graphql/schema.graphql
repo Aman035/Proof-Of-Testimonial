@@ -1,28 +1,18 @@
 type Query {
   """
-  Get a profile by address
+  Check if an address is eligible for the whitelist
   """
-  profile(address: ID!): Profile
+  checkWhitelistEligibility(address: ID!): Status
+}
+
+type Status {
+  score: Float
+  isEligible: Boolean
 }
 
 type Mutation {
   """
-  Create a new profile
+  Whitelist an address
   """
-  createProfile(input: CreateProfileInput!): Profile
-  """
-  Update an existing profile
-  """
-  updateProfile(input: CreateProfileInput!): Profile
-}
-
-type Profile {
-  address: String!
-  attestationId: String!
-  createdAt: String!
-}
-
-input CreateProfileInput {
-  address: String!
-  attestationId: String!
+  whitelist(address: ID!): String
 }

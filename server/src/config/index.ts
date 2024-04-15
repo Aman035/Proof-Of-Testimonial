@@ -1,4 +1,5 @@
 import dotenv from 'dotenv'
+import { abi } from './abi'
 dotenv.config()
 
 export const config = {
@@ -7,4 +8,18 @@ export const config = {
     prefix: '/api',
   },
   nodeEnv: process.env.NODE_ENV || 'development',
+  gitcoin: {
+    thresholdScore: 2,
+    scorerId: '7067',
+    url: 'https://api.scorer.gitcoin.co/',
+    apiKey: process.env.GITCOIN_API_KEY,
+  },
+  account: {
+    address: '0x28F1C7B4596D9db14f85c04DcBd867Bf4b14b811',
+    privateKey: process.env.PRIVATE_KEY,
+  },
+  contract: {
+    abi: abi,
+    address: '0x1387570F68e667b07e22aB5DE9101deA5Bb60AB4',
+  },
 }
