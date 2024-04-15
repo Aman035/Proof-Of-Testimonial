@@ -16,11 +16,11 @@ contract TokenTest is Test {
     }
 
     function testTokenName() public {
-        assertEq(ttt.name(), "Tic Tac Token");
+        assertEq(ttt.name(), "Proof of Testimonials Token");
     }
 
     function testTokenSymbol() public {
-        assertEq(ttt.symbol(), "TTT");
+        assertEq(ttt.symbol(), "POT");
     }
 
     function testTokenDecimals() public {
