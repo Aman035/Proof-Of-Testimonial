@@ -38,4 +38,18 @@ contract TokenTest is Test {
         ttt.mint(address(this), 100 ether); // called by address.this ( ie owner )
         assertEq(ttt.balanceOf(address(this)), 100 ether);
     }
+
+    function testNonOwnerCannotBurn() public {
+        ttt.mint(address(this), 100 ether);
+        address nonOwner = makeAddr("nonOwner");
+        vm.prank(nonOwner);
+        vm.expectRevert();
+        ttt.burn(nonOwner, 100 ether); // called by nonOwner
+    }
+
+    function testOwnerCanBurn() public {
+        ttt.mint(address(this), 100 ether);
+        ttt.burn(address(this), 100 ether); // called by address.this ( ie owner )
+        assertEq(ttt.balanceOf(address(this)), 0 ether);
+    }
 }
