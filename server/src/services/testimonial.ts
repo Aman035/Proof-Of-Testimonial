@@ -1,19 +1,51 @@
+import { writeContract } from '../helpers/contract'
+import { getAttestation } from '../helpers/signX'
+
 export const addTestimonial = async (testimonialAttestationId: string) => {
-  // check product is valid
-  // check testimonial is valid
-  // TODO: Add check to avoid adding duplicate testimonials in smart contract
-  // add in smart contract
-  return ''
+  const attestion = await getAttestation(testimonialAttestationId)
+  if (!attestion) {
+    throw new Error('Testimonial Attestation not found')
+  }
+  const attester = attestion.attester
+  const productAttestationId = attestion.linkedAttestation
+  const productAttestation = await getAttestation(productAttestationId)
+  if (!productAttestation) {
+    throw new Error('Product Attestation not found')
+  }
+  //todo: throw error is attestation is too old
+
+  return await writeContract('addTestimonial', [
+    testimonialAttestationId,
+    attester,
+    productAttestationId,
+  ])
 }
 
-export const upvoteTestimonial = async (upvoteAttestationId: string) => {
-  // check if upvoteAttestationId is valid
-  // add in smart contract
-  return ''
-}
+export const voteTestimonial = async (voteAttestationId: string) => {
+  const attestion = await getAttestation(voteAttestationId)
+  if (!attestion) {
+    throw new Error('Testimonial Attestation not found')
+  }
+  const attester = attestion.attester
+  const testimonialAttestationId = attestion.linkedAttestation
+  const testimonialAttestation = await getAttestation(testimonialAttestationId)
+  if (!testimonialAttestation) {
+    throw new Error('Testimonial Attestation not found')
+  }
 
-export const downvoteTestimonial = async (downAttestationId: string) => {
-  // check if downAttestationId is valid
-  // add in smart contract
-  return ''
+  // todo: throw error is attestation is too old
+
+  const upvote = JSON.parse(attestion.data).vote === 'UPVOTE'
+
+  return upvote
+    ? await writeContract('upvoteDelegate', [
+        voteAttestationId,
+        attester,
+        testimonialAttestationId,
+      ])
+    : await writeContract('downvoteDelegate', [
+        voteAttestationId,
+        attester,
+        testimonialAttestationId,
+      ])
 }

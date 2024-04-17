@@ -20,11 +20,7 @@ type Mutation {
   """
   addTestimonial(testimonialAttestationId: ID!): String
   """
-  Upvote a testimonial
+  vote for a testimonial - upvote or downvote
   """
-  upvoteTestimonial(upvoteAttestationId: ID!): String
-  """
-  Downvote a testimonial
-  """
-  downvoteTestimonial(downvoteAttestationId: ID!): String
+  voteTestimonial(voteAttestationId: ID!): String
 }

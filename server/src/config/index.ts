@@ -22,4 +22,8 @@ export const config = {
     abi: abi,
     address: '0x3311c551E1F45A2DD7f072ef0a8f2406DE7058bF',
   },
+  signX: {
+    testimonialSchemaId: 'SPS_5GQyk-P8gyd1gX3_CW3Tk',
+    voteSchemaId: 'SPS_Qpv1GmWVWUZeFY-Ge3A_f',
+  },
 }

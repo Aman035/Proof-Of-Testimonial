@@ -16,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "@apollo/server": "^4.9.5",
+    "@ethsign/sp-sdk": "^0.3.25",
     "axios": "^1.6.8",
     "cors": "^2.8.5",
     "dataloader": "^2.2.2",
