@@ -56,161 +56,161 @@ contract PotTest is Test {
     // non ownder cannot add testimonial
     function testNonOwnerCannotAddTestimonial() public {
         address nonOwner = makeAddr("nonOwner");
-        address attestor = makeAddr("attestor");
+        address attester = makeAddr("attester");
         vm.prank(nonOwner);
         vm.expectRevert();
-        pot.addTestimonial("randomId", attestor, "product");
+        pot.addTestimonial("randomId", attester, "product");
     }
 
     // owner can't add testimonial for non whitelisted user
     function testOwnerCannotAddTestimonialForNonWhitelistedUser() public {
-        address attestor = makeAddr("attestor");
+        address attester = makeAddr("attester");
         vm.expectRevert();
-        pot.addTestimonial("randomId", attestor, "product");
+        pot.addTestimonial("randomId", attester, "product");
     }
 
     // owner can add testimonial for whitelisted user
     function testOwnerCanAddTestimonialForWhitelistedUser() public {
-        address attestor = makeAddr("attestor");
-        pot.whitelist(attestor);
-        pot.addTestimonial("randomId", attestor, "product");
+        address attester = makeAddr("attester");
+        pot.whitelist(attester);
+        pot.addTestimonial("randomId", attester, "product");
         assert(pot.getTestimonials("product").length == 1);
     }
 
     // non-whitelist user can  delegate upvote
     function testNotWitelistedUserCanDelegateUpvote() public {
-        address attestor = makeAddr("attestor");
+        address attester = makeAddr("attester");
         address nonWhitelistedUser = makeAddr("nonWhitelistedUser");
-        pot.whitelist(attestor);
-        pot.addTestimonial("randomId", attestor, "product");
+        pot.whitelist(attester);
+        pot.addTestimonial("randomId", attester, "product");
         pot.upvoteDelegate("randomIdUpvoteId", nonWhitelistedUser, "randomId");
         assert(pot.getUpvotes("randomId") == 1);
         assert(pot.getDownvotes("randomId") == 0);
-        assert(pot.getRewardPool(attestor) == 0);
+        assert(pot.getRewardPool(attester) == 0);
     }
 
     // whitelist user can delegate upvote
     function testWitelistedUserCanDelegateUpvote() public {
-        address attestor = makeAddr("attestor");
+        address attester = makeAddr("attester");
         address whitelistedUser = makeAddr("whitelistedUser");
-        pot.whitelist(attestor);
+        pot.whitelist(attester);
         pot.whitelist(whitelistedUser);
-        pot.addTestimonial("randomId", attestor, "product");
+        pot.addTestimonial("randomId", attester, "product");
         pot.upvoteDelegate("randomIdUpvoteId", whitelistedUser, "randomId");
         assert(pot.getUpvotes("randomId") == 1);
         assert(pot.getDownvotes("randomId") == 0);
-        assert(pot.getRewardPool(attestor) == 10 ether);
+        assert(pot.getRewardPool(attester) == 10 ether);
     }
 
     // non-whitelist user can downvote
     function testNotWitelistedUserCanDelegateDownvote() public {
-        address attestor = makeAddr("attestor");
+        address attester = makeAddr("attester");
         address nonWhitelistedUser = makeAddr("nonWhitelistedUser");
-        pot.whitelist(attestor);
-        pot.addTestimonial("randomId", attestor, "product");
+        pot.whitelist(attester);
+        pot.addTestimonial("randomId", attester, "product");
         pot.downvoteDelegate("randomIdDownvoteId", nonWhitelistedUser, "randomId");
         assert(pot.getUpvotes("randomId") == 0);
         assert(pot.getDownvotes("randomId") == 1);
-        assert(pot.getRewardPool(attestor) == 0);
+        assert(pot.getRewardPool(attester) == 0);
     }
 
     // whitelist user can downvote
     function testWitelistedUserCanDelegateDownvote() public {
-        address attestor = makeAddr("attestor");
+        address attester = makeAddr("attester");
         address whitelistedUser = makeAddr("whitelistedUser");
-        pot.whitelist(attestor);
+        pot.whitelist(attester);
         pot.whitelist(whitelistedUser);
-        pot.addTestimonial("randomId", attestor, "product");
+        pot.addTestimonial("randomId", attester, "product");
         pot.downvoteDelegate("randomIdDownvoteId", whitelistedUser, "randomId");
         assert(pot.getUpvotes("randomId") == 0);
         assert(pot.getDownvotes("randomId") == 1);
-        assert(pot.getRewardPool(attestor) == 0);
+        assert(pot.getRewardPool(attester) == 0);
     }
 
     // whitelist user can upvote
     function testWitelistedUserCanUpvote() public {
-        address attestor = makeAddr("attestor");
+        address attester = makeAddr("attester");
         address whitelistedUser = makeAddr("whitelistedUser");
-        pot.whitelist(attestor);
+        pot.whitelist(attester);
         pot.whitelist(whitelistedUser);
-        pot.addTestimonial("randomId", attestor, "product");
+        pot.addTestimonial("randomId", attester, "product");
         vm.prank(whitelistedUser);
         pot.upvote("randomId");
         assert(pot.getUpvotes("randomId") == 1);
         assert(pot.getDownvotes("randomId") == 0);
-        assert(pot.getRewardPool(attestor) == 10 ether);
+        assert(pot.getRewardPool(attester) == 10 ether);
     }
 
     // non whitelist user can upvote
     function testNonWitelistedUserCanUpvote() public {
-        address attestor = makeAddr("attestor");
+        address attester = makeAddr("attester");
         address nonWhitelistedUser = makeAddr("nonWhitelistedUser");
-        pot.whitelist(attestor);
-        pot.addTestimonial("randomId", attestor, "product");
+        pot.whitelist(attester);
+        pot.addTestimonial("randomId", attester, "product");
         vm.prank(nonWhitelistedUser);
         pot.upvote("randomId");
         assert(pot.getUpvotes("randomId") == 1);
         assert(pot.getDownvotes("randomId") == 0);
-        assert(pot.getRewardPool(attestor) == 0 ether);
+        assert(pot.getRewardPool(attester) == 0 ether);
     }
 
     // whitelist user can downvote
     function testWitelistedUserCanDownvote() public {
-        address attestor = makeAddr("attestor");
+        address attester = makeAddr("attester");
         address whitelistedUser = makeAddr("whitelistedUser");
-        pot.whitelist(attestor);
+        pot.whitelist(attester);
         pot.whitelist(whitelistedUser);
-        pot.addTestimonial("randomId", attestor, "product");
+        pot.addTestimonial("randomId", attester, "product");
         vm.prank(whitelistedUser);
         pot.downvote("randomId");
         assert(pot.getUpvotes("randomId") == 0);
         assert(pot.getDownvotes("randomId") == 1);
-        assert(pot.getRewardPool(attestor) == 0 ether);
+        assert(pot.getRewardPool(attester) == 0 ether);
     }
 
     function testAddingTestimonialHasFee() public {
         address tokenAddress = pot.getTokenAddress();
         Token t = Token(tokenAddress);
 
-        address attestor = makeAddr("attestor");
-        assert(t.balanceOf(attestor) == 0 ether);
-        pot.whitelist(attestor);
-        assert(t.balanceOf(attestor) == 1000 ether);
-        pot.addTestimonial("randomId", attestor, "product");
-        assert(t.balanceOf(attestor) == 900 ether);
+        address attester = makeAddr("attester");
+        assert(t.balanceOf(attester) == 0 ether);
+        pot.whitelist(attester);
+        assert(t.balanceOf(attester) == 1000 ether);
+        pot.addTestimonial("randomId", attester, "product");
+        assert(t.balanceOf(attester) == 900 ether);
     }
 
         function testSameTestimonialCannotBeAddedAgain() public {
-        address attestor = makeAddr("attestor");
-        pot.whitelist(attestor);
-        pot.addTestimonial("randomId", attestor, "product");
+        address attester = makeAddr("attester");
+        pot.whitelist(attester);
+        pot.addTestimonial("randomId", attester, "product");
         vm.expectRevert();
-        pot.addTestimonial("randomId", attestor, "product");
+        pot.addTestimonial("randomId", attester, "product");
     }
 
     // non whitelist user can downvote
     function testNonWitelistedUserCanDownvote() public {
-        address attestor = makeAddr("attestor");
+        address attester = makeAddr("attester");
         address nonWhitelistedUser = makeAddr("nonWhitelistedUser");
-        pot.whitelist(attestor);
-        pot.addTestimonial("randomId", attestor, "product");
+        pot.whitelist(attester);
+        pot.addTestimonial("randomId", attester, "product");
         vm.prank(nonWhitelistedUser);
         pot.downvote("randomId");
         assert(pot.getUpvotes("randomId") == 0);
         assert(pot.getDownvotes("randomId") == 1);
-        assert(pot.getRewardPool(attestor) == 0 ether);
+        assert(pot.getRewardPool(attester) == 0 ether);
     }
 
     function testUserCanChangeVote() public {
-        address attestor = makeAddr("attestor");
+        address attester = makeAddr("attester");
         address whitelistedUser = makeAddr("whitelistedUser");
-        pot.whitelist(attestor);
+        pot.whitelist(attester);
         pot.whitelist(whitelistedUser);
-        pot.addTestimonial("randomId", attestor, "product");
+        pot.addTestimonial("randomId", attester, "product");
         pot.upvoteDelegate("randomIdUpvoteId", whitelistedUser, "randomId");
-        assert(pot.getRewardPool(attestor) == 10 ether);
+        assert(pot.getRewardPool(attester) == 10 ether);
         pot.downvoteDelegate("randomIdDownvoteId", whitelistedUser, "randomId");
-        assert(pot.getRewardPool(attestor) == 0);
+        assert(pot.getRewardPool(attester) == 0);
         assert(pot.getUpvotes("randomId") == 0);
         assert(pot.getDownvotes("randomId") == 1);
     }
@@ -230,17 +230,17 @@ contract PotTest is Test {
         pot.downvote("randomIdInvalid");
     }
 
-    function testAttestorCannotClaimRewardBeforeMinimumClaimableReward() public {
-        address attestor = makeAddr("attestor");
-        pot.whitelist(attestor);
+    function testattesterCannotClaimRewardBeforeMinimumClaimableReward() public {
+        address attester = makeAddr("attester");
+        pot.whitelist(attester);
         vm.expectRevert();
-        pot.claimReward(attestor);
+        pot.claimReward(attester);
     }
 
-    function testAttestorCanClaimRewardAfterMinimumClaimableReward() public {
-        address attestor = makeAddr("attestor");
-        pot.whitelist(attestor);
-        pot.addTestimonial("randomId", attestor, "product");
+    function testattesterCanClaimRewardAfterMinimumClaimableReward() public {
+        address attester = makeAddr("attester");
+        pot.whitelist(attester);
+        pot.addTestimonial("randomId", attester, "product");
 
         address user1 = makeAddr("user1");
         address user2 = makeAddr("user2");
@@ -257,11 +257,11 @@ contract PotTest is Test {
         pot.upvoteDelegate("3", user3, "randomId");
         pot.upvoteDelegate("4", user4, "randomId");
         pot.upvoteDelegate("5", user5, "randomId");
-        assert(pot.getRewardPool(attestor) == 50 ether);
-        pot.claimReward(attestor);
+        assert(pot.getRewardPool(attester) == 50 ether);
+        pot.claimReward(attester);
 
         address tokenAddress = pot.getTokenAddress();
         Token t = Token(tokenAddress);
-        assert(t.balanceOf(attestor) == 950 ether);
+        assert(t.balanceOf(attester) == 950 ether);
     }
 }

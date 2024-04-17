@@ -21,7 +21,7 @@ export const getAttestation = async (attestationId: string) => {
 }
 
 /**
- * Get Latest Attestation from a attestor in a particular schema
+ * Get Latest Attestation from a attester in a particular schema
  */
 export const getLatestAttestation = async (
   schemaId: string,

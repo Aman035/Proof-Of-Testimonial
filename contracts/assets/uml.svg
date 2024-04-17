@@ -104,7 +104,7 @@
 <text text-anchor="start" x="197.92" y="-587.9" font-family="Times,serif" font-size="14.00"> &#160;&#160;s_whitelist: mapping(address=&gt;bool)</text>
 <text text-anchor="start" x="197.92" y="-571.1" font-family="Times,serif" font-size="14.00"> &#160;&#160;s_testimonials: mapping(string=&gt;string[])</text>
 <text text-anchor="start" x="197.92" y="-554.3" font-family="Times,serif" font-size="14.00"> &#160;&#160;s_attesters: mapping(string=&gt;address)</text>
-<text text-anchor="start" x="197.92" y="-537.5" font-family="Times,serif" font-size="14.00"> &#160;&#160;s_attestorRewardPool: mapping(address=&gt;uint256)</text>
+<text text-anchor="start" x="197.92" y="-537.5" font-family="Times,serif" font-size="14.00"> &#160;&#160;s_attesterRewardPool: mapping(address=&gt;uint256)</text>
 <text text-anchor="start" x="197.92" y="-520.7" font-family="Times,serif" font-size="14.00"> &#160;&#160;s_upvoted: mapping(string=&gt;mapping(address=&gt;bool))</text>
 <text text-anchor="start" x="197.92" y="-503.9" font-family="Times,serif" font-size="14.00"> &#160;&#160;s_downvoted: mapping(string=&gt;mapping(address=&gt;bool))</text>
 <text text-anchor="start" x="197.92" y="-487.1" font-family="Times,serif" font-size="14.00"> &#160;&#160;s_upvotes: mapping(string=&gt;uint256)</text>
@@ -113,10 +113,10 @@
 <text text-anchor="start" x="197.92" y="-445.5" font-family="Times,serif" font-size="14.00">External:</text>
 <text text-anchor="start" x="197.92" y="-428.7" font-family="Times,serif" font-size="14.00"> &#160;&#160;&#160;whitelist(addr: address)</text>
 <text text-anchor="start" x="197.92" y="-411.9" font-family="Times,serif" font-size="14.00"> &#160;&#160;&#160;revokeWhitelist(addr: address)</text>
-<text text-anchor="start" x="197.92" y="-395.1" font-family="Times,serif" font-size="14.00"> &#160;&#160;&#160;addTestimonial(attestationId: string, attestor: address, productId: string)</text>
-<text text-anchor="start" x="197.92" y="-378.3" font-family="Times,serif" font-size="14.00"> &#160;&#160;&#160;upvoteDelegate(attestationId: string, attestor: address, testimonialAttestationId: string)</text>
+<text text-anchor="start" x="197.92" y="-395.1" font-family="Times,serif" font-size="14.00"> &#160;&#160;&#160;addTestimonial(attestationId: string, attester: address, productId: string)</text>
+<text text-anchor="start" x="197.92" y="-378.3" font-family="Times,serif" font-size="14.00"> &#160;&#160;&#160;upvoteDelegate(attestationId: string, attester: address, testimonialAttestationId: string)</text>
 <text text-anchor="start" x="197.92" y="-361.5" font-family="Times,serif" font-size="14.00"> &#160;&#160;&#160;upvote(testimonialAttestationId: string)</text>
-<text text-anchor="start" x="197.92" y="-344.7" font-family="Times,serif" font-size="14.00"> &#160;&#160;&#160;downvoteDelegate(attestationId: string, attestor: address, testimonialAttestationId: string)</text>
+<text text-anchor="start" x="197.92" y="-344.7" font-family="Times,serif" font-size="14.00"> &#160;&#160;&#160;downvoteDelegate(attestationId: string, attester: address, testimonialAttestationId: string)</text>
 <text text-anchor="start" x="197.92" y="-327.9" font-family="Times,serif" font-size="14.00"> &#160;&#160;&#160;downvote(testimonialAttestationId: string)</text>
 <text text-anchor="start" x="197.92" y="-311.1" font-family="Times,serif" font-size="14.00"> &#160;&#160;&#160;claimReward(addr: address)</text>
 <text text-anchor="start" x="197.92" y="-294.3" font-family="Times,serif" font-size="14.00">Public:</text>

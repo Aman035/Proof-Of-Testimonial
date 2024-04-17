@@ -32,7 +32,7 @@ contract ProofOfTestimonials {
     mapping(address => bool) private s_whitelist;
     mapping(string => string[]) private s_testimonials;
     mapping(string => address) private s_attesters;
-    mapping(address => uint256) private s_attestorRewardPool;
+    mapping(address => uint256) private s_attesterRewardPool;
     mapping(string => mapping(address => bool)) private s_upvoted;
     mapping(string => mapping(address => bool)) private s_downvoted;
     mapping(string => uint256) private s_upvotes;
@@ -104,48 +104,48 @@ contract ProofOfTestimonials {
         emit RevokeWhitelist(addr);
     }
 
-    function addTestimonial(string memory attestationId, address attestor, string memory productId)
+    function addTestimonial(string memory attestationId, address attester, string memory productId)
         external
         onlyOwner
-        whitelisted(attestor)
+        whitelisted(attester)
     {
         if (s_attesters[attestationId] != address(0)) {
             revert POT__InvalidTestimonialAttestationId();
         }
-        if (i_token.balanceOf(attestor) < TESTIMONIAL_COST) {
+        if (i_token.balanceOf(attester) < TESTIMONIAL_COST) {
             revert POT__InsufficientTokens();
         }
-        i_token.burn(attestor, TESTIMONIAL_COST);
+        i_token.burn(attester, TESTIMONIAL_COST);
         s_testimonials[productId].push(attestationId);
-        s_attesters[attestationId] = attestor;
-        emit TestimonialAdded(attestor, attestationId, productId);
+        s_attesters[attestationId] = attester;
+        emit TestimonialAdded(attester, attestationId, productId);
     }
 
     /**
      * @dev Upvote a testimonial - delagate to owner
      */
-    function upvoteDelegate(string memory attestationId, address attestor, string memory testimonialAttestationId)
+    function upvoteDelegate(string memory attestationId, address attester, string memory testimonialAttestationId)
         external
         onlyOwner
         validTestimonialAttestationId(testimonialAttestationId)
     {
-        if (s_upvoted[testimonialAttestationId][attestor]) {
+        if (s_upvoted[testimonialAttestationId][attester]) {
             revert POT__AlreadyUpvoted();
         }
-        s_upvoted[testimonialAttestationId][attestor] = true;
+        s_upvoted[testimonialAttestationId][attester] = true;
         s_upvotes[testimonialAttestationId] += 1;
 
-        if (s_downvoted[testimonialAttestationId][attestor]) {
-            s_downvoted[testimonialAttestationId][attestor] = false;
+        if (s_downvoted[testimonialAttestationId][attester]) {
+            s_downvoted[testimonialAttestationId][attester] = false;
             s_downvotes[testimonialAttestationId] -= 1;
         }
 
-        // Reward the attestor with upvote reward if the upvoter is whitelisted
-        if (isWhitelisted(attestor)) {
-            s_attestorRewardPool[s_attesters[testimonialAttestationId]] += UPVOTE_REWARD;
+        // Reward the attester with upvote reward if the upvoter is whitelisted
+        if (isWhitelisted(attester)) {
+            s_attesterRewardPool[s_attesters[testimonialAttestationId]] += UPVOTE_REWARD;
         }
 
-        emit UpvoteDelegate(attestor, attestationId, testimonialAttestationId);
+        emit UpvoteDelegate(attester, attestationId, testimonialAttestationId);
     }
 
     /**
@@ -166,9 +166,9 @@ contract ProofOfTestimonials {
             s_downvotes[testimonialAttestationId] -= 1;
         }
 
-        // Reward the attestor with upvote reward if the upvoter is whitelisted
+        // Reward the attester with upvote reward if the upvoter is whitelisted
         if (isWhitelisted(msg.sender)) {
-            s_attestorRewardPool[s_attesters[testimonialAttestationId]] += UPVOTE_REWARD;
+            s_attesterRewardPool[s_attesters[testimonialAttestationId]] += UPVOTE_REWARD;
         }
 
         emit Upvote(msg.sender, testimonialAttestationId);
@@ -177,32 +177,32 @@ contract ProofOfTestimonials {
     /**
      * @dev Downvote a testimonial - delagate to owner
      */
-    function downvoteDelegate(string memory attestationId, address attestor, string memory testimonialAttestationId)
+    function downvoteDelegate(string memory attestationId, address attester, string memory testimonialAttestationId)
         external
         onlyOwner
         validTestimonialAttestationId(testimonialAttestationId)
     {
-        if (s_downvoted[testimonialAttestationId][attestor]) {
+        if (s_downvoted[testimonialAttestationId][attester]) {
             revert POT__AlreadyDownvoted();
         }
-        s_downvoted[testimonialAttestationId][attestor] = true;
+        s_downvoted[testimonialAttestationId][attester] = true;
         s_downvotes[testimonialAttestationId] += 1;
 
-        if (s_upvoted[testimonialAttestationId][attestor]) {
-            s_upvoted[testimonialAttestationId][attestor] = false;
+        if (s_upvoted[testimonialAttestationId][attester]) {
+            s_upvoted[testimonialAttestationId][attester] = false;
             s_upvotes[testimonialAttestationId] -= 1;
         }
 
-        // Burn downvote reward from the attestor if the downvoter is whitelisted
-        if (isWhitelisted(attestor)) {
-            if (s_attestorRewardPool[s_attesters[testimonialAttestationId]] >= DOWNVOTE_BURN) {
-                s_attestorRewardPool[s_attesters[testimonialAttestationId]] -= DOWNVOTE_BURN;
+        // Burn downvote reward from the attester if the downvoter is whitelisted
+        if (isWhitelisted(attester)) {
+            if (s_attesterRewardPool[s_attesters[testimonialAttestationId]] >= DOWNVOTE_BURN) {
+                s_attesterRewardPool[s_attesters[testimonialAttestationId]] -= DOWNVOTE_BURN;
             } else {
-                s_attestorRewardPool[s_attesters[testimonialAttestationId]] = 0;
+                s_attesterRewardPool[s_attesters[testimonialAttestationId]] = 0;
             }
         }
 
-        emit DownvoteDelegate(attestor, attestationId, testimonialAttestationId);
+        emit DownvoteDelegate(attester, attestationId, testimonialAttestationId);
     }
 
     /**
@@ -225,10 +225,10 @@ contract ProofOfTestimonials {
         }
 
         if (isWhitelisted(msg.sender)) {
-            if (s_attestorRewardPool[s_attesters[testimonialAttestationId]] >= DOWNVOTE_BURN) {
-                s_attestorRewardPool[s_attesters[testimonialAttestationId]] -= DOWNVOTE_BURN;
+            if (s_attesterRewardPool[s_attesters[testimonialAttestationId]] >= DOWNVOTE_BURN) {
+                s_attesterRewardPool[s_attesters[testimonialAttestationId]] -= DOWNVOTE_BURN;
             } else {
-                s_attestorRewardPool[s_attesters[testimonialAttestationId]] = 0;
+                s_attesterRewardPool[s_attesters[testimonialAttestationId]] = 0;
             }
         }
 
@@ -236,11 +236,11 @@ contract ProofOfTestimonials {
     }
 
     function claimReward(address addr) external {
-        uint256 reward = s_attestorRewardPool[addr];
+        uint256 reward = s_attesterRewardPool[addr];
         if (reward < MIN_CLAIMABLE_REWARD) {
             revert POT__InsufficientTokens();
         }
-        s_attestorRewardPool[addr] = 0;
+        s_attesterRewardPool[addr] = 0;
         i_token.mint(addr, reward);
     }
 
@@ -260,7 +260,7 @@ contract ProofOfTestimonials {
     }
 
     function getRewardPool(address addr) public view returns (uint256) {
-        return s_attestorRewardPool[addr];
+        return s_attesterRewardPool[addr];
     }
 
     function getUpvotes(string memory testimonialAttestationId) public view returns (uint256) {

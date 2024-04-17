@@ -14,7 +14,7 @@ export const abi = [
         internalType: 'string',
       },
       {
-        name: 'attestor',
+        name: 'attester',
         type: 'address',
         internalType: 'address',
       },
@@ -63,7 +63,7 @@ export const abi = [
         internalType: 'string',
       },
       {
-        name: 'attestor',
+        name: 'attester',
         type: 'address',
         internalType: 'address',
       },
@@ -220,7 +220,7 @@ export const abi = [
         internalType: 'string',
       },
       {
-        name: 'attestor',
+        name: 'attester',
         type: 'address',
         internalType: 'address',
       },
