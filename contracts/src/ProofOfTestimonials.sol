@@ -17,15 +17,16 @@ contract ProofOfTestimonials {
     error POT__InsufficientTokens();
     error POT__AlreadyUpvoted();
     error POT__AlreadyDownvoted();
+    error POT__InvalidTestimonialAttestationId();
 
     /**
      * State Variables
      */
-    uint8 private constant TESTIMONIAL_COST = 100;
-    uint16 private constant WHITELIST_REWARD = 1000;
-    uint8 private constant UPVOTE_REWARD = 10;
-    uint8 private constant DOWNVOTE_BURN = 10;
-    uint8 private constant MIN_CLAIMABLE_REWARD = 50;
+    uint256 private constant TESTIMONIAL_COST = 100 ether;
+    uint256 private constant WHITELIST_REWARD = 1000 ether;
+    uint256 private constant UPVOTE_REWARD = 10 ether;
+    uint256 private constant DOWNVOTE_BURN = 10 ether;
+    uint256 private constant MIN_CLAIMABLE_REWARD = 50 ether;
     Token private immutable i_token;
     address private immutable i_owner;
     mapping(address => bool) private s_whitelist;
@@ -65,6 +66,14 @@ contract ProofOfTestimonials {
         _;
     }
 
+    // valid testimonial attestation id
+    modifier validTestimonialAttestationId(string memory testimonialAttestationId) {
+        if (s_attesters[testimonialAttestationId] == address(0)) {
+            revert POT__InvalidTestimonialAttestationId();
+        }
+        _;
+    }
+
     /**
      * Functions
      */
@@ -87,7 +96,7 @@ contract ProofOfTestimonials {
         emit Whitelist(addr);
     }
 
-    function removeWhitelist(address addr) external onlyOwner {
+    function revokeWhitelist(address addr) external onlyOwner {
         if (!s_whitelist[addr]) {
             revert POT__UserNotWhitelisted();
         }
@@ -115,6 +124,7 @@ contract ProofOfTestimonials {
     function upvoteDelegate(string memory attestationId, address attestor, string memory testimonialAttestationId)
         external
         onlyOwner
+        validTestimonialAttestationId(testimonialAttestationId)
     {
         if (s_upvoted[testimonialAttestationId][attestor]) {
             revert POT__AlreadyUpvoted();
@@ -138,7 +148,10 @@ contract ProofOfTestimonials {
     /**
      * @dev Upvote a testimonial
      */
-    function upvote(string memory testimonialAttestationId) external {
+    function upvote(string memory testimonialAttestationId)
+        external
+        validTestimonialAttestationId(testimonialAttestationId)
+    {
         if (s_upvoted[testimonialAttestationId][msg.sender]) {
             revert POT__AlreadyUpvoted();
         }
@@ -164,16 +177,17 @@ contract ProofOfTestimonials {
     function downvoteDelegate(string memory attestationId, address attestor, string memory testimonialAttestationId)
         external
         onlyOwner
+        validTestimonialAttestationId(testimonialAttestationId)
     {
-        if (s_downvoted[attestationId][attestor]) {
+        if (s_downvoted[testimonialAttestationId][attestor]) {
             revert POT__AlreadyDownvoted();
         }
-        s_downvoted[attestationId][attestor] = true;
-        s_downvotes[attestationId] += 1;
+        s_downvoted[testimonialAttestationId][attestor] = true;
+        s_downvotes[testimonialAttestationId] += 1;
 
-        if (s_upvoted[attestationId][attestor]) {
-            s_upvoted[attestationId][attestor] = false;
-            s_upvotes[attestationId] -= 1;
+        if (s_upvoted[testimonialAttestationId][attestor]) {
+            s_upvoted[testimonialAttestationId][attestor] = false;
+            s_upvotes[testimonialAttestationId] -= 1;
         }
 
         // Burn downvote reward from the attestor if the downvoter is whitelisted
@@ -191,7 +205,10 @@ contract ProofOfTestimonials {
     /**
      * @dev Upvote a testimonial
      */
-    function downvote(string memory testimonialAttestationId) external onlyOwner {
+    function downvote(string memory testimonialAttestationId)
+        external
+        validTestimonialAttestationId(testimonialAttestationId)
+    {
         if (s_downvoted[testimonialAttestationId][msg.sender]) {
             revert POT__AlreadyDownvoted();
         }
@@ -227,6 +244,10 @@ contract ProofOfTestimonials {
     /**
      * Getters
      */
+    function getTokenAddress() public view returns (address) {
+        return address(i_token);
+    }
+
     function isWhitelisted(address addr) public view returns (bool) {
         return s_whitelist[addr];
     }
