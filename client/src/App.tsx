@@ -19,14 +19,13 @@ import { useEffect } from 'react'
 import '@rainbow-me/rainbowkit/styles.css'
 import { getDefaultConfig, RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import { WagmiProvider } from 'wagmi'
-import { gnosisChiado } from 'wagmi/chains'
+import { neonDevnet } from 'wagmi/chains'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 
 const config = getDefaultConfig({
   appName: 'Proof Of Testimonial',
   projectId: '7569cfee6ec721ba9f5c5e8df5d2e4c6',
-  chains: [gnosisChiado],
-  ssr: true, // If your dApp uses server side rendering (SSR)
+  chains: [neonDevnet],
 })
 const queryClient = new QueryClient()
 
