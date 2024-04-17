@@ -15,4 +15,16 @@ type Mutation {
   Whitelist an address
   """
   whitelist(address: ID!): String
+  """
+  Add Testimonial
+  """
+  addTestimonial(testimonialAttestationId: ID!): String
+  """
+  Upvote a testimonial
+  """
+  upvoteTestimonial(upvoteAttestationId: ID!): String
+  """
+  Downvote a testimonial
+  """
+  downvoteTestimonial(downvoteAttestationId: ID!): String
 }

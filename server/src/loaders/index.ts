@@ -3,6 +3,7 @@ import { expressLoader } from './express'
 import logger from './logger'
 import { apolloLoader } from './apolloServer'
 import { dbCreator } from './dbCreator'
+import { scheduleJobs } from './jobs'
 
 export const loaders = async (app: Application): Promise<void> => {
   const apolloServer = await apolloLoader()
@@ -11,4 +12,6 @@ export const loaders = async (app: Application): Promise<void> => {
   logger.info('Express loaded ✅')
   await dbCreator()
   logger.info('Database created ✅')
+  await scheduleJobs()
+  logger.info('Jobs scheduled ✅')
 }
