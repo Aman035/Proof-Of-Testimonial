@@ -18,50 +18,18 @@
       "isFixedGasLimit": false
     }
   ],
-  "receipts": [
-    {
-      "transactionHash": "0x8b8ff4d562a1b2b962862b9a2ee159a8207e4515b10735ee5d8d05aeffa372e1",
-      "transactionIndex": "0x0",
-      "blockHash": "0x4f081c9e8c8fc0b6cb2720f0fc117e6bd67276adb48738468150996226d26f25",
-      "blockNumber": "0x1175dc2d",
-      "from": "0x28F1C7B4596D9db14f85c04DcBd867Bf4b14b811",
-      "to": null,
-      "cumulativeGasUsed": "0x60f4960",
-      "gasUsed": "0x60f4960",
-      "contractAddress": "0xdF91eFfa28E6745e9D562b3017eFfd6F6680F3F1",
-      "logs": [
-        {
-          "address": "0x319058574F6930ff96d0Cc44D3dA11d74397a0dB",
-          "topics": [
-            "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0",
-            "0x0000000000000000000000000000000000000000000000000000000000000000",
-            "0x000000000000000000000000df91effa28e6745e9d562b3017effd6f6680f3f1"
-          ],
-          "data": "0x",
-          "blockHash": "0x4f081c9e8c8fc0b6cb2720f0fc117e6bd67276adb48738468150996226d26f25",
-          "blockNumber": "0x1175dc2d",
-          "transactionHash": "0x8b8ff4d562a1b2b962862b9a2ee159a8207e4515b10735ee5d8d05aeffa372e1",
-          "transactionIndex": "0x0",
-          "logIndex": "0x0",
-          "transactionLogIndex": "0x0",
-          "removed": false
-        }
-      ],
-      "status": "0x1",
-      "logsBloom": "0x00000000000000000000000000000000000000000000000000800000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000400000020000100000000000000800000000000000000000000000000000400000000000000000000000040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000800010000000000000000000000000000",
-      "type": "0x0",
-      "effectiveGasPrice": "0x349e5e15bb"
-    }
-  ],
+  "receipts": [],
   "libraries": [],
-  "pending": [],
+  "pending": [
+    "0x8b8ff4d562a1b2b962862b9a2ee159a8207e4515b10735ee5d8d05aeffa372e1"
+  ],
   "returns": {
     "pot": {
       "internal_type": "contract ProofOfTestimonials",
       "value": "0xdF91eFfa28E6745e9D562b3017eFfd6F6680F3F1"
     }
   },
-  "timestamp": 1713332039,
+  "timestamp": 1713332032,
   "chain": 245022926,
   "multi": false,
   "commit": "c811f90"
