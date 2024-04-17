@@ -1,5 +1,6 @@
-import { useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { isEligible } from './queries'
+import { whitelistUser } from './mutations'
 /**
  * THIS FILE CONTAINS CUSTOM REACT HOOKS
  * All react are internaly using useQuery and useMutation hooks from @apollo/client
@@ -15,4 +16,17 @@ export const useIsEligible = (address: string) => {
     loading,
     error,
   }
+}
+
+export const useWhitelistUser = () => {
+  const [mutate, { loading }] = useMutation(whitelistUser)
+
+  const getWhitelist = async (address: string) => {
+    const { data } = await mutate({
+      variables: { address },
+    })
+    return data?.whitelist
+  }
+
+  return { loading, getWhitelist }
 }
