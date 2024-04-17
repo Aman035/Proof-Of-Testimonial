@@ -180,6 +180,14 @@ contract PotTest is Test {
         assert(t.balanceOf(attestor) == 900 ether);
     }
 
+        function testSameTestimonialCannotBeAddedAgain() public {
+        address attestor = makeAddr("attestor");
+        pot.whitelist(attestor);
+        pot.addTestimonial("randomId", attestor, "product");
+        vm.expectRevert();
+        pot.addTestimonial("randomId", attestor, "product");
+    }
+
     // non whitelist user can downvote
     function testNonWitelistedUserCanDownvote() public {
         address attestor = makeAddr("attestor");

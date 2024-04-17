@@ -7,7 +7,7 @@
 
 ## Deployment
 
-Conract Address: [0xdF91eFfa28E6745e9D562b3017eFfd6F6680F3F1](https://neon-devnet.blockscout.com/address/0xdF91eFfa28E6745e9D562b3017eFfd6F6680F3F1?tab=contact_code)
+Conract Address: [0x3311c551E1F45A2DD7f072ef0a8f2406DE7058bF](https://neon-devnet.blockscout.com/address/0x3311c551E1F45A2DD7f072ef0a8f2406DE7058bF?tab=contact_code)
 
 ## Architecture
 

@@ -20,6 +20,6 @@ export const config = {
   },
   contract: {
     abi: abi,
-    address: '0x1387570F68e667b07e22aB5DE9101deA5Bb60AB4',
+    address: '0x3311c551E1F45A2DD7f072ef0a8f2406DE7058bF',
   },
 }

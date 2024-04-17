@@ -109,6 +109,9 @@ contract ProofOfTestimonials {
         onlyOwner
         whitelisted(attestor)
     {
+        if (s_attesters[attestationId] != address(0)) {
+            revert POT__InvalidTestimonialAttestationId();
+        }
         if (i_token.balanceOf(attestor) < TESTIMONIAL_COST) {
             revert POT__InsufficientTokens();
         }
