@@ -9,7 +9,7 @@ export const config = {
   },
   nodeEnv: process.env.NODE_ENV || 'development',
   gitcoin: {
-    thresholdScore: 2,
+    thresholdScore: 1,
     scorerId: '7067',
     url: 'https://api.scorer.gitcoin.co/',
     apiKey: process.env.GITCOIN_API_KEY,

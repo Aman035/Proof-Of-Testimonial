@@ -23,4 +23,8 @@ type Mutation {
   vote for a testimonial - upvote or downvote
   """
   voteTestimonial(voteAttestationId: ID!): String
+  """
+  claim Reward
+  """
+  claimReward(address: ID!): String
 }

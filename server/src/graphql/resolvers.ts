@@ -2,6 +2,7 @@ import { GraphQLError } from 'graphql'
 import { Resolvers } from './generated/schema'
 import { checkWhitelistEligibility, whitelist } from '../services/whitelist'
 import { addTestimonial, voteTestimonial } from '../services/testimonial'
+import { claimReward } from '../services/reward'
 
 export const resolvers: Resolvers = {
   Query: {
@@ -31,6 +32,15 @@ export const resolvers: Resolvers = {
     voteTestimonial: async (_root, { voteAttestationId }) => {
       try {
         return await voteTestimonial(voteAttestationId)
+      } catch (e) {
+        throw new GraphQLError((e as Error).message, {
+          extensions: { code: 'BAD_REQUEST' },
+        })
+      }
+    },
+    claimReward: async (_root, { address }) => {
+      try {
+        return await claimReward(address)
       } catch (e) {
         throw new GraphQLError((e as Error).message, {
           extensions: { code: 'BAD_REQUEST' },
