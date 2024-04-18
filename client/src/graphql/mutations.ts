@@ -5,3 +5,9 @@ export const whitelistUser = gql(/* GraphQL */ `
     whitelist(address: $address)
   }
 `)
+
+export const claimReward = gql(/* GraphQL */ `
+  mutation claimReward($address: ID!) {
+    claimReward(address: $address)
+  }
+`)

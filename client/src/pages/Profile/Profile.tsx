@@ -11,7 +11,11 @@ import {
 import { getLatestAttestation } from '../../helpers/signX'
 import { config } from '../../config'
 import { AttestationInfo } from '@ethsign/sp-sdk/dist/types/indexService'
-import { useIsEligible, useWhitelistUser } from '../../graphql/hooks'
+import {
+  useClaimReward,
+  useIsEligible,
+  useWhitelistUser,
+} from '../../graphql/hooks'
 
 type Data = {
   userName: string
@@ -41,10 +45,10 @@ const Profile = () => {
         address as string
       )) as AttestationInfo | null
       if (attestation) {
-        setProfile(() => ({
+        setProfile({
           ...JSON.parse(attestation.data),
           attestationId: attestation.id,
-        }))
+        })
         setLoading(false)
       } else if (isConnected && address === connectedAddress) {
         navigate('/edit-profile')
@@ -62,26 +66,53 @@ const Profile = () => {
     args: [address],
   })
 
+  const tokenBalance = useReadContract({
+    abi: config.tokenAbi,
+    address: config.tokenContractAddress as `0x${string}`,
+    functionName: 'balanceOf',
+    args: [address],
+  })
+
   const [whitelistingDone, setWhitelistingDone] = useState(false)
-
   const { data: eligibilityData } = useIsEligible(address as string)
-
   const { loading: loadingWhitelist, getWhitelist } = useWhitelistUser()
+  const { loading: loadingClaimReward, claim } = useClaimReward()
+
+  const rewards = useReadContract({
+    abi: config.contractAbi,
+    address: config.contractAddress as `0x${string}`,
+    functionName: 'getRewardPool',
+    args: [address],
+  })
+
+  const [rewardsClaimed, setRewardsClaimed] = useState(false)
+
+  const formattedTokenBalance =
+    tokenBalance.data !== undefined
+      ? `${(BigInt(tokenBalance.data as number) / BigInt(1e18)).toString()} POT`
+      : 'Loading...'
+
+  const formattedRewards =
+    rewards.data !== undefined
+      ? `${(BigInt(rewards.data as number) / BigInt(1e18)).toString()} POT`
+      : `Loading...`
+
+  const showClaimRewards =
+    rewards.data !== undefined &&
+    BigInt(rewards.data as number) / BigInt(1e18) >= 50
 
   if (loading) return <Loader />
 
   const StatusLabel = () => {
     if (!isWhitelisted || !eligibilityData) return null
     return (
-      <div className="flex justify-end items-center">
-        {isWhitelisted.data === true || whitelistingDone === true ? (
-          <span className="text-green-500 flex items-center gap-1">
-            <CheckBadgeIcon className="h-5 w-5" /> Whitelisted
-          </span>
+      <>
+        {isWhitelisted.data === true || whitelistingDone ? (
+          <CheckBadgeIcon className="h-7 w-7 text-green-500" />
         ) : eligibilityData.isEligible ? (
           <button
             disabled={loadingWhitelist}
-            className="bg-indigo-600 text-white font-medium px-3 py-1 rounded hover:bg-indigo-500 flex items-center gap-1"
+            className="bg-indigo-600 text-white font-medium px-3 py-1 rounded hover:bg-indigo-500 flex items-center gap-1 relative"
             onClick={async () => {
               await getWhitelist(address as string)
               setWhitelistingDone(true)
@@ -90,17 +121,15 @@ const Profile = () => {
             {loadingWhitelist ? 'Whitelisting...' : 'Get Whitelisted'}
           </button>
         ) : (
-          <div className="relative">
-            <span className="text-red-500 flex items-center gap-1 group">
-              <XCircleIcon className="h-5 w-5" /> Ineligible for Whitelisting
-              <div className="absolute bottom-0 translate-y-full w-64 p-2 bg-black text-white text-sm rounded shadow-lg hidden group-hover:block">
-                Gitcoin passport score is too low to be whitelisted. it should
-                be greater than 1.
-              </div>
-            </span>
+          <div className="relative group">
+            <XCircleIcon className="h-7 w-7 text-red-500" />
+            <div className="absolute hidden group-hover:block w-60 bg-black text-white text-center text-xs rounded-lg py-2 px-3">
+              Not eligible for whitelisting, Gitcoin Passport score is less than
+              1
+            </div>
           </div>
         )}
-      </div>
+      </>
     )
   }
 
@@ -134,11 +163,22 @@ const Profile = () => {
           />
         )}
       </div>
-      <div className="mt-8">
-        <h1 className="text-3xl font-bold text-gray-900">{profile.userName}</h1>
-        <StatusLabel />
-        <p className="text-gray-600">{profile.about}</p>
+      <div className="mt-8 flex flex-col sm:flex-row justify-between items-center">
+        <div className="flex items-center gap-2">
+          <h1 className="text-3xl font-bold text-gray-900">
+            {profile.userName}
+          </h1>
+          <StatusLabel />
+        </div>
+        <div>
+          {tokenBalance.data !== undefined && (
+            <h2 className="text-lg font-medium">
+              Balance :) {formattedTokenBalance}
+            </h2>
+          )}
+        </div>
       </div>
+      <p className="text-gray-600">{profile.about}</p>
       <div className="mt-10 text-center space-x-4">
         {isConnected && connectedAddress === address && (
           <button
@@ -157,6 +197,25 @@ const Profile = () => {
             View Attestation
           </button>
         </a>
+      </div>
+      <div className="mt-16 flex flex-col sm:flex-row justify-center items-center">
+        {rewards.data !== undefined && (
+          <h2 className="text-lg font-semibold flex items-center gap-2 mx-3">
+            Current Rewards : {rewardsClaimed ? 0 : formattedRewards}
+          </h2>
+        )}
+        {showClaimRewards && !rewardsClaimed && (
+          <button
+            className="bg-black text-white font-bold py-2 px-4 rounded mx-3"
+            disabled={loadingClaimReward}
+            onClick={async () => {
+              await claim(address as string)
+              setRewardsClaimed(true)
+            }}
+          >
+            {loadingClaimReward ? 'Claiming' : 'Claim Rewards'}
+          </button>
+        )}
       </div>
     </div>
   )
