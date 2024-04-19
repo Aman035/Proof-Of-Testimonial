@@ -29,7 +29,7 @@ deploy:
 	@forge script script/DeployProofOfTestmonials.s.sol:DeployProofOfTestimonials --rpc-url http://localhost:8545 --private-key $(DEFAULT_ANVIL_KEY) --broadcast
 
 deploy-gnosis-chiado:
-	@forge script script/DeployProofOfTestmonials.s.sol:DeployProofOfTestimonials --rpc-url $(GNOSIS_CHIADO_RPC_URL) --legacy --private-key $(PRIVATE_KEY) --broadcast
+	@forge script script/DeployProofOfTestmonials.s.sol:DeployProofOfTestimonials --rpc-url $(GNOSIS_CHIADO_RPC_URL) --private-key $(PRIVATE_KEY) --broadcast
 
 deploy-neon-devnet:
 	@forge script script/DeployProofOfTestmonials.s.sol:DeployProofOfTestimonials --rpc-url $(NEON_DEVNET_RPC_URL) --legacy --private-key $(PRIVATE_KEY) --broadcast --skip-simulation

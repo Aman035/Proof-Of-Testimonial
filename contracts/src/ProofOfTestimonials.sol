@@ -270,4 +270,12 @@ contract ProofOfTestimonials {
     function getDownvotes(string memory testimonialAttestationId) public view returns (uint256) {
         return s_downvotes[testimonialAttestationId];
     }
+
+    function upvoted(string memory testimonialAttestationId, address addr) public view returns (bool) {
+        return s_upvoted[testimonialAttestationId][addr];
+    }
+
+    function downvoted(string memory testimonialAttestationId, address addr) public view returns (bool) {
+        return s_downvoted[testimonialAttestationId][addr];
+    }
 }
