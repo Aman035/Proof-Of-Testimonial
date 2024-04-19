@@ -88,13 +88,11 @@ const Product = () => {
       </div>
       <AddTestimonial productAttestationId={attestationId as string} />
       <div className="mx-auto max-w-4xl p-4 sm:p-6 lg:p-8 my-10">
-        {[
-          'SPA_iM37Fosq_oPuhtdbXdMs4',
-          'SPA_iM37Fosq_oPuhtdbXdMs4',
-          'SPA_iM37Fosq_oPuhtdbXdMs4',
-        ].map((testimonialId: string, index: number) => (
-          <TestimonialCard testimonialId={testimonialId} key={index} />
-        ))}
+        {data &&
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (data as any).map((testimonialId: string, index: number) => (
+            <TestimonialCard testimonialId={testimonialId} key={index} />
+          ))}
       </div>
     </>
   )
