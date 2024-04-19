@@ -1,6 +1,6 @@
 import { PlusIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { useNavigate } from 'react-router-dom'
-import { Loader } from '../../components'
+import { GridLoader } from '../../components'
 import { useEffect, useState } from 'react'
 import { getAttestations } from '../../helpers/signX'
 import { config } from '../../config'
@@ -59,7 +59,7 @@ const Protocols = () => {
     setPage((prevPage) => prevPage + 1)
   }
 
-  if (loading) return <Loader />
+  if (loading) return <GridLoader />
 
   return (
     <div className="mx-auto max-w-4xl p-4 sm:p-6 lg:p-8">

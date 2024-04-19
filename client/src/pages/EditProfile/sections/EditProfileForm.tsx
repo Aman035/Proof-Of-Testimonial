@@ -1,5 +1,5 @@
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
-import { Banner, Loader } from '../../../components'
+import { Banner, GridLoader } from '../../../components'
 import { useEffect, useState } from 'react'
 import { useWalletClient } from 'wagmi'
 import { config } from '../../../config'
@@ -139,7 +139,7 @@ const EditProfileForm = () => {
     }
   }
 
-  if (loading) return <Loader />
+  if (loading) return <GridLoader />
 
   return (
     <>

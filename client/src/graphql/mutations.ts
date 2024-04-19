@@ -11,3 +11,15 @@ export const claimReward = gql(/* GraphQL */ `
     claimReward(address: $address)
   }
 `)
+
+export const addTestimonial = gql(/* GraphQL */ `
+  mutation AddTestimonial($testimonialAttestationId: ID!) {
+    addTestimonial(testimonialAttestationId: $testimonialAttestationId)
+  }
+`)
+
+export const voteTestimonial = gql(/* GraphQL */ `
+  mutation VoteTestimonial($voteAttestationId: ID!) {
+    voteTestimonial(voteAttestationId: $voteAttestationId)
+  }
+`)

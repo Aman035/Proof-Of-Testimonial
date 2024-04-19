@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { Loader } from '../../components'
+import { GridLoader } from '../../components'
 import { useAccount, useReadContract } from 'wagmi'
 import {
   UserCircleIcon,
@@ -101,7 +101,7 @@ const Profile = () => {
     rewards.data !== undefined &&
     BigInt(rewards.data as number) / BigInt(1e18) >= 50
 
-  if (loading) return <Loader />
+  if (loading) return <GridLoader />
 
   const StatusLabel = () => {
     if (!isWhitelisted || !eligibilityData) return null

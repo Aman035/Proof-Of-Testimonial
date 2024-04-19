@@ -1,7 +1,7 @@
 import { grid } from 'ldrs'
 grid.register()
 
-const Loader = () => {
+const GridLoader = () => {
   return (
     <div className="grid min-h-full place-items-center justify-center px-6 py-24 sm:py-32 lg:px-12">
       <div className="text-center">
@@ -11,4 +11,4 @@ const Loader = () => {
   )
 }
 
-export default Loader
+export default GridLoader

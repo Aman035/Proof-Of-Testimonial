@@ -1,5 +1,5 @@
 import { UserCircleIcon } from '@heroicons/react/24/solid'
-import { Loader } from '../../../components'
+import { GridLoader } from '../../../components'
 import { useState } from 'react'
 import { useWalletClient } from 'wagmi'
 import { config } from '../../../config'
@@ -116,7 +116,7 @@ const AddProductForm = () => {
     }
   }
 
-  if (loading) return <Loader />
+  if (loading) return <GridLoader />
 
   return (
     <>
