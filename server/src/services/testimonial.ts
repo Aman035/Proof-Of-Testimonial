@@ -22,9 +22,12 @@ export const addTestimonial = async (testimonialAttestationId: string) => {
 }
 
 export const voteTestimonial = async (voteAttestationId: string) => {
+  // wait for 15 sec
+  // attestations take some time to be indexed
+  await new Promise((resolve) => setTimeout(resolve, 15000))
   const attestion = await getAttestation(voteAttestationId)
   if (!attestion) {
-    throw new Error('Testimonial Attestation not found')
+    throw new Error('Vote Attestation not found')
   }
   const attester = attestion.attester
   const testimonialAttestationId = attestion.linkedAttestation

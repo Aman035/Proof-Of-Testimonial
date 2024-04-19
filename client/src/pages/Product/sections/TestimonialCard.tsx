@@ -116,14 +116,11 @@ export const TestimonialCard = ({ testimonialId }: ITestimonialCard) => {
         {
           vote: 'UPVOTE',
         },
-        null,
+        testimonialId,
         customSigner.address
       )
       setUserUpvoted(true)
       setUserDownvoted(false)
-      // await for 10 sec
-      // attestations tak some time to be indexed
-      await new Promise((resolve) => setTimeout(resolve, 10000))
       await createVote(attestationId)
     } catch (error) {
       alert('Error upvoting testimonial')
@@ -148,14 +145,11 @@ export const TestimonialCard = ({ testimonialId }: ITestimonialCard) => {
         {
           vote: 'DOWNVOTE',
         },
-        null,
+        testimonialId,
         customSigner.address
       )
       setUserUpvoted(false)
       setUserDownvoted(true)
-      // await for 10 sec
-      // attestations tak some time to be indexed
-      await new Promise((resolve) => setTimeout(resolve, 10000))
       await createVote(attestationId)
     } catch (error) {
       alert('Error downvoting testimonial')
