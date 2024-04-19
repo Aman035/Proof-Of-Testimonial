@@ -85,6 +85,17 @@ const Product = () => {
             </div>
           </dl>
         </div>
+        <div className="text-center mt-8">
+          <a
+            href={`https://testnet-scan.sign.global/attestation/${attestationId}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <button className="rounded-md bg-gray-300 px-4 py-2 text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
+              View Attestation
+            </button>
+          </a>
+        </div>
       </div>
       <AddTestimonial productAttestationId={attestationId as string} />
       <div className="mx-auto max-w-4xl p-4 sm:p-6 lg:p-8 my-10">

@@ -24,7 +24,7 @@ type Data = {
   about: string
   photo: string
   coverPhoto: string
-  attestationId?: string | null
+  address: string
 }
 
 export const TestimonialCard = ({ testimonialId }: ITestimonialCard) => {
@@ -35,6 +35,7 @@ export const TestimonialCard = ({ testimonialId }: ITestimonialCard) => {
     about: '',
     photo: '',
     coverPhoto: '',
+    address: '',
   })
   const [voteData, setVoteData] = useState({
     upvotes: 0,
@@ -57,6 +58,7 @@ export const TestimonialCard = ({ testimonialId }: ITestimonialCard) => {
         if (profileAttestation) {
           setProfile({
             ...JSON.parse(profileAttestation.data),
+            address: testimonialAttestation.attester,
           })
         }
 
@@ -146,44 +148,71 @@ export const TestimonialCard = ({ testimonialId }: ITestimonialCard) => {
 
   return (
     <div className="mt-8 max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-4 space-y-4">
-      <div className="flex items-center space-x-4 p-4">
-        <img
-          className="h-12 w-12 rounded-full"
-          src={profile.photo}
-          alt={profile.userName}
-        />
-        <h5 className="text-lg font-bold">{profile.userName}</h5>
+      <div className="flex justify-between items-center space-x-4 p-4">
+        <div className="flex items-center space-x-4">
+          <img
+            className="h-12 w-12 rounded-full"
+            src={profile.photo}
+            alt={profile.userName}
+          />
+          <a
+            href={`/profile/${profile.address}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <h5 className="text-lg font-bold">{profile.userName}</h5>
+          </a>
+        </div>
+        <div>
+          <a
+            href={`https://testnet-scan.sign.global/attestation/${testimonialId}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <button className="rounded-md bg-gray-300 px-4 py-2 text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
+              View Attestation
+            </button>
+          </a>
+        </div>
       </div>
+
       <p className="text-gray-500 text-sm px-4">{testimonialText}</p>
-      <div className="flex justify-start items-center space-x-4 px-4">
-        <button
-          className="flex items-center space-x-2"
-          onClick={handleUpvote}
-          disabled={!isConnected || voteData.upvoted}
-        >
-          <ArrowUpCircleIcon
-            className={`h-6 w-6 ${
-              !isConnected || voteData.upvoted
-                ? 'text-blue-500'
-                : 'text-gray-500 hover:text-blue-500'
-            }`}
-          />
-          <span>{voteData.upvotes}</span>
-        </button>
-        <button
-          className="flex items-center space-x-2"
-          onClick={handleDownvote}
-          disabled={!isConnected || voteData.downvoted}
-        >
-          <ArrowDownCircleIcon
-            className={`h-6 w-6 ${
-              !isConnected || voteData.downvoted
-                ? 'text-red-500'
-                : 'text-gray-500 hover:text-red-500'
-            }`}
-          />
-          <span>{voteData.downvotes}</span>
-        </button>
+      <div className="flex justify-between items-center space-x-4 px-4">
+        <div className="flex items-center space-x-2">
+          <button
+            className="flex items-center space-x-2"
+            onClick={handleUpvote}
+            disabled={!isConnected || voteData.upvoted}
+          >
+            <ArrowUpCircleIcon
+              className={`h-6 w-6 ${
+                !isConnected || voteData.upvoted
+                  ? 'text-blue-500'
+                  : 'text-gray-500 hover:text-blue-500'
+              }`}
+            />
+            <span>{voteData.upvotes}</span>
+          </button>
+          <button
+            className="flex items-center space-x-2"
+            onClick={handleDownvote}
+            disabled={!isConnected || voteData.downvoted}
+          >
+            <ArrowDownCircleIcon
+              className={`h-6 w-6 ${
+                !isConnected || voteData.downvoted
+                  ? 'text-red-500'
+                  : 'text-gray-500 hover:text-red-500'
+              }`}
+            />
+            <span>{voteData.downvotes}</span>
+          </button>
+        </div>
+        {!isConnected && (
+          <h3 className="text-right flex-1 text-yellow-500">
+            Connect wallet to vote
+          </h3>
+        )}
       </div>
     </div>
   )
