@@ -22,7 +22,7 @@ import { WagmiProvider } from 'wagmi'
 import { neonDevnet } from 'wagmi/chains'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 
-const config = getDefaultConfig({
+export const config = getDefaultConfig({
   appName: 'Proof Of Testimonial',
   projectId: '7569cfee6ec721ba9f5c5e8df5d2e4c6',
   chains: [neonDevnet],
