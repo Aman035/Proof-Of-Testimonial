@@ -1,16 +1,16 @@
 import { createPublicClient, createWalletClient, http } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
-import { neonDevnet } from 'viem/chains'
+import { gnosisChiado } from 'viem/chains'
 import { config } from '../config'
 
 const publicClient = createPublicClient({
-  chain: neonDevnet,
+  chain: gnosisChiado,
   transport: http(),
 })
 
 const walletClient = createWalletClient({
   account: privateKeyToAccount(config.account.privateKey as `0x${string}`),
-  chain: neonDevnet,
+  chain: gnosisChiado,
   transport: http(),
 })
 
