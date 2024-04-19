@@ -76,6 +76,7 @@ export const AddTestimonial = ({ productAttestationId }: IAddTestimonial) => {
       // attestations tak some time to be indexed
       await new Promise((resolve) => setTimeout(resolve, 10000))
       await createTestimonial(testimonialAttestationId)
+      await new Promise((resolve) => setTimeout(resolve, 3000))
       // refresh page
       window.location.reload()
     } catch (err) {
