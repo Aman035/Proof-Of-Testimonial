@@ -17,19 +17,23 @@ export const getVotes = async (testimonialId: string, address: string) => {
     args: [testimonialId],
   })
 
-  const upvoted = await readContract(wagmiConfig, {
-    abi: config.contractAbi,
-    address: config.contractAddress as `0x${string}`,
-    functionName: 'upvoted',
-    args: [testimonialId, address],
-  })
+  const upvoted = address
+    ? await readContract(wagmiConfig, {
+        abi: config.contractAbi,
+        address: config.contractAddress as `0x${string}`,
+        functionName: 'upvoted',
+        args: [testimonialId, address],
+      })
+    : false
 
-  const downvoted = await readContract(wagmiConfig, {
-    abi: config.contractAbi,
-    address: config.contractAddress as `0x${string}`,
-    functionName: 'downvoted',
-    args: [testimonialId, address],
-  })
+  const downvoted = address
+    ? await readContract(wagmiConfig, {
+        abi: config.contractAbi,
+        address: config.contractAddress as `0x${string}`,
+        functionName: 'downvoted',
+        args: [testimonialId, address],
+      })
+    : false
 
   return {
     upvotes: Number(upvotes),
