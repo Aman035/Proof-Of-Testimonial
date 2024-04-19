@@ -1,28 +1,12 @@
 export const abi = [
-  {
-    type: 'constructor',
-    inputs: [],
-    stateMutability: 'nonpayable',
-  },
+  { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
   {
     type: 'function',
     name: 'addTestimonial',
     inputs: [
-      {
-        name: 'attestationId',
-        type: 'string',
-        internalType: 'string',
-      },
-      {
-        name: 'attester',
-        type: 'address',
-        internalType: 'address',
-      },
-      {
-        name: 'productId',
-        type: 'string',
-        internalType: 'string',
-      },
+      { name: 'attestationId', type: 'string', internalType: 'string' },
+      { name: 'attester', type: 'address', internalType: 'address' },
+      { name: 'productId', type: 'string', internalType: 'string' },
     ],
     outputs: [],
     stateMutability: 'nonpayable',
@@ -30,13 +14,7 @@ export const abi = [
   {
     type: 'function',
     name: 'claimReward',
-    inputs: [
-      {
-        name: 'addr',
-        type: 'address',
-        internalType: 'address',
-      },
-    ],
+    inputs: [{ name: 'addr', type: 'address', internalType: 'address' }],
     outputs: [],
     stateMutability: 'nonpayable',
   },
@@ -57,16 +35,8 @@ export const abi = [
     type: 'function',
     name: 'downvoteDelegate',
     inputs: [
-      {
-        name: 'attestationId',
-        type: 'string',
-        internalType: 'string',
-      },
-      {
-        name: 'attester',
-        type: 'address',
-        internalType: 'address',
-      },
+      { name: 'attestationId', type: 'string', internalType: 'string' },
+      { name: 'attester', type: 'address', internalType: 'address' },
       {
         name: 'testimonialAttestationId',
         type: 'string',
@@ -78,6 +48,20 @@ export const abi = [
   },
   {
     type: 'function',
+    name: 'downvoted',
+    inputs: [
+      {
+        name: 'testimonialAttestationId',
+        type: 'string',
+        internalType: 'string',
+      },
+      { name: 'addr', type: 'address', internalType: 'address' },
+    ],
+    outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
     name: 'getDownvotes',
     inputs: [
       {
@@ -86,64 +70,28 @@ export const abi = [
         internalType: 'string',
       },
     ],
-    outputs: [
-      {
-        name: '',
-        type: 'uint256',
-        internalType: 'uint256',
-      },
-    ],
+    outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
     stateMutability: 'view',
   },
   {
     type: 'function',
     name: 'getRewardPool',
-    inputs: [
-      {
-        name: 'addr',
-        type: 'address',
-        internalType: 'address',
-      },
-    ],
-    outputs: [
-      {
-        name: '',
-        type: 'uint256',
-        internalType: 'uint256',
-      },
-    ],
+    inputs: [{ name: 'addr', type: 'address', internalType: 'address' }],
+    outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
     stateMutability: 'view',
   },
   {
     type: 'function',
     name: 'getTestimonials',
-    inputs: [
-      {
-        name: 'productId',
-        type: 'string',
-        internalType: 'string',
-      },
-    ],
-    outputs: [
-      {
-        name: '',
-        type: 'string[]',
-        internalType: 'string[]',
-      },
-    ],
+    inputs: [{ name: 'productId', type: 'string', internalType: 'string' }],
+    outputs: [{ name: '', type: 'string[]', internalType: 'string[]' }],
     stateMutability: 'view',
   },
   {
     type: 'function',
     name: 'getTokenAddress',
     inputs: [],
-    outputs: [
-      {
-        name: '',
-        type: 'address',
-        internalType: 'address',
-      },
-    ],
+    outputs: [{ name: '', type: 'address', internalType: 'address' }],
     stateMutability: 'view',
   },
   {
@@ -156,44 +104,20 @@ export const abi = [
         internalType: 'string',
       },
     ],
-    outputs: [
-      {
-        name: '',
-        type: 'uint256',
-        internalType: 'uint256',
-      },
-    ],
+    outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
     stateMutability: 'view',
   },
   {
     type: 'function',
     name: 'isWhitelisted',
-    inputs: [
-      {
-        name: 'addr',
-        type: 'address',
-        internalType: 'address',
-      },
-    ],
-    outputs: [
-      {
-        name: '',
-        type: 'bool',
-        internalType: 'bool',
-      },
-    ],
+    inputs: [{ name: 'addr', type: 'address', internalType: 'address' }],
+    outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
     stateMutability: 'view',
   },
   {
     type: 'function',
     name: 'revokeWhitelist',
-    inputs: [
-      {
-        name: 'addr',
-        type: 'address',
-        internalType: 'address',
-      },
-    ],
+    inputs: [{ name: 'addr', type: 'address', internalType: 'address' }],
     outputs: [],
     stateMutability: 'nonpayable',
   },
@@ -214,16 +138,8 @@ export const abi = [
     type: 'function',
     name: 'upvoteDelegate',
     inputs: [
-      {
-        name: 'attestationId',
-        type: 'string',
-        internalType: 'string',
-      },
-      {
-        name: 'attester',
-        type: 'address',
-        internalType: 'address',
-      },
+      { name: 'attestationId', type: 'string', internalType: 'string' },
+      { name: 'attester', type: 'address', internalType: 'address' },
       {
         name: 'testimonialAttestationId',
         type: 'string',
@@ -235,14 +151,22 @@ export const abi = [
   },
   {
     type: 'function',
-    name: 'whitelist',
+    name: 'upvoted',
     inputs: [
       {
-        name: 'addr',
-        type: 'address',
-        internalType: 'address',
+        name: 'testimonialAttestationId',
+        type: 'string',
+        internalType: 'string',
       },
+      { name: 'addr', type: 'address', internalType: 'address' },
     ],
+    outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'whitelist',
+    inputs: [{ name: 'addr', type: 'address', internalType: 'address' }],
     outputs: [],
     stateMutability: 'nonpayable',
   },
@@ -250,12 +174,7 @@ export const abi = [
     type: 'event',
     name: 'Downvote',
     inputs: [
-      {
-        name: 'addr',
-        type: 'address',
-        indexed: true,
-        internalType: 'address',
-      },
+      { name: 'addr', type: 'address', indexed: true, internalType: 'address' },
       {
         name: 'testimonialAttestationId',
         type: 'string',
@@ -269,12 +188,7 @@ export const abi = [
     type: 'event',
     name: 'DownvoteDelegate',
     inputs: [
-      {
-        name: 'addr',
-        type: 'address',
-        indexed: true,
-        internalType: 'address',
-      },
+      { name: 'addr', type: 'address', indexed: true, internalType: 'address' },
       {
         name: 'attestationId',
         type: 'string',
@@ -294,12 +208,7 @@ export const abi = [
     type: 'event',
     name: 'RevokeWhitelist',
     inputs: [
-      {
-        name: 'addr',
-        type: 'address',
-        indexed: true,
-        internalType: 'address',
-      },
+      { name: 'addr', type: 'address', indexed: true, internalType: 'address' },
     ],
     anonymous: false,
   },
@@ -307,12 +216,7 @@ export const abi = [
     type: 'event',
     name: 'TestimonialAdded',
     inputs: [
-      {
-        name: 'addr',
-        type: 'address',
-        indexed: true,
-        internalType: 'address',
-      },
+      { name: 'addr', type: 'address', indexed: true, internalType: 'address' },
       {
         name: 'attestationId',
         type: 'string',
@@ -332,12 +236,7 @@ export const abi = [
     type: 'event',
     name: 'Upvote',
     inputs: [
-      {
-        name: 'addr',
-        type: 'address',
-        indexed: true,
-        internalType: 'address',
-      },
+      { name: 'addr', type: 'address', indexed: true, internalType: 'address' },
       {
         name: 'testimonialAttestationId',
         type: 'string',
@@ -351,12 +250,7 @@ export const abi = [
     type: 'event',
     name: 'UpvoteDelegate',
     inputs: [
-      {
-        name: 'addr',
-        type: 'address',
-        indexed: true,
-        internalType: 'address',
-      },
+      { name: 'addr', type: 'address', indexed: true, internalType: 'address' },
       {
         name: 'attestationId',
         type: 'string',
@@ -376,48 +270,15 @@ export const abi = [
     type: 'event',
     name: 'Whitelist',
     inputs: [
-      {
-        name: 'addr',
-        type: 'address',
-        indexed: true,
-        internalType: 'address',
-      },
+      { name: 'addr', type: 'address', indexed: true, internalType: 'address' },
     ],
     anonymous: false,
   },
-  {
-    type: 'error',
-    name: 'POT__AlreadyDownvoted',
-    inputs: [],
-  },
-  {
-    type: 'error',
-    name: 'POT__AlreadyUpvoted',
-    inputs: [],
-  },
-  {
-    type: 'error',
-    name: 'POT__InsufficientTokens',
-    inputs: [],
-  },
-  {
-    type: 'error',
-    name: 'POT__InvalidTestimonialAttestationId',
-    inputs: [],
-  },
-  {
-    type: 'error',
-    name: 'POT__Unauthorized',
-    inputs: [],
-  },
-  {
-    type: 'error',
-    name: 'POT__UserAlreadyWhitelisted',
-    inputs: [],
-  },
-  {
-    type: 'error',
-    name: 'POT__UserNotWhitelisted',
-    inputs: [],
-  },
+  { type: 'error', name: 'POT__AlreadyDownvoted', inputs: [] },
+  { type: 'error', name: 'POT__AlreadyUpvoted', inputs: [] },
+  { type: 'error', name: 'POT__InsufficientTokens', inputs: [] },
+  { type: 'error', name: 'POT__InvalidTestimonialAttestationId', inputs: [] },
+  { type: 'error', name: 'POT__Unauthorized', inputs: [] },
+  { type: 'error', name: 'POT__UserAlreadyWhitelisted', inputs: [] },
+  { type: 'error', name: 'POT__UserNotWhitelisted', inputs: [] },
 ]
