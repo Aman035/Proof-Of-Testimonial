@@ -1,5 +1,3 @@
 {
-  "rewrites": [
-    { "source": "/client/(.*)", "destination": "/client/dist/index.html" }
-  ]
+  "rewrites": [{ "source": "/(.*)", "destination": "/client/dist/index.html" }]
 }
