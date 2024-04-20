@@ -26,8 +26,9 @@ export default function Hero() {
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-600">
               Dive into our process: leveraging <b>SignX</b> for verifiable,
-              trustworthy testimonials. Understand the journey of each review,
-              from submission to validation.
+              trustworthy testimonials and <b>Neon EVM</b> for on-chain indexing
+              and rewards. Understand the journey of each review, from
+              submission to validation.
             </p>
           </div>
         </div>

@@ -56,7 +56,7 @@
 
 In a world where product and services quality depend heavily on testimonials and reviews, the authenticity of these reviews can often be questionable.
 False testimonials can mislead consumers and damage the reputations of good businesses. Fake reviews can also be used to manipulate the market and create unfair competition. Whereas, genuine testimonials can help businesses grow and build trust with their customers.
-Curently all the testimonials found for any web2 / web3 product have to be taken at face value. There is no way to verify if the testimonial was added by a real user or a bot and even if it was added by a real user, there is no way to verify if the user really gave the testimonial or if it was added by the product owners itself twising the words of the user. This is where Proof Of Testimonials comes in.
+Currently all the testimonials found for any web2 / web3 product have to be taken at face value. There is no way to verify if the testimonial was added by a real user or a bot and even if it was added by a real user, there is no way to verify if the user really gave the testimonial or if it was added by the product owners itself twisting the words of the user. This is where Proof Of Testimonials comes in.
 
 ### Solution
 
@@ -120,7 +120,7 @@ Currently, Proof of Testimonials allows users to add off-chain attestations on *
 git clone https://github.com/Aman035/Proof-Of-Testimonial.git
 ```
 
-### Client
+### Client Installation
 
 ```bash
 cd client
@@ -142,7 +142,7 @@ npm run build
 npm run start
 ```
 
-### Contracts
+### Contracts Installation
 
 ```bash
 cd contracts
@@ -164,7 +164,7 @@ make test
 make deploy
 ```
 
-### Backend
+### Backend Installation
 
 ```bash
 cd server
