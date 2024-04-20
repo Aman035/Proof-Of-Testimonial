@@ -7,7 +7,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-    <img src="client/public/logo.png" alt="Logo" width="150" height="130">
+    <img src="client/public/logo.png" alt="Logo" width="240" height="200">
   <h3 align="center">Proof Of Testimonials</h3>
   <p align="center" >Bringing the power of decentrealized verifiable attestations to your testimonials. Ensuring every review is genuine and credible</p>
   <p align="center">
@@ -65,17 +65,17 @@ All products and profiles are attested off-chain using SignX, which can be verif
 
 Proof of Testimonials also ensures bot resistance and safety against profile spoofing.
 
-- **Bot Resistance**: Every user profile must have a `Threshold` Gitcoin Passport Score to add a testimonial. This ensures that the user is real and not a bot.
-  (Note: The `Threshold` Gitcoin Passport Score can be set by the product owner and is currently set to 1 for the MVP demo.)
-- **Profile Spoofing Detection**: Each user profile SignX attestation is linked to the previous profile attestation, thus forming a chain of attestations. This helps the platform detect any recent changes or spoofing in profiles.
+- **<u>Bot Resistance**</u>: Every user profile must have a `Threshold` Gitcoin Passport Score to add a testimonial. This ensures that the user is real and not a bot.
+  ( Note: The `Threshold` Gitcoin Passport Score can be set by the product owner and is currently set to 1 for the MVP demo. )
+- **<u>Profile Spoofing Detection</u>**: Each user profile SignX attestation is linked to the previous profile attestation, thus forming a chain of attestations. This helps the platform detect any recent changes or spoofing in profiles.
 
 Proof of Testimonials also ensures that users who add testimonials are rewarded for quality contributions and penalized for fake testimonials. This is managed through the following mechanisms:
 
-- **One-time Reward on Whitelist**: Users are minted 1000 `POT` tokens when they achieve a `Threshold` Gitcoin Passport Score and are added to the whitelist.
-- **Testimonial Addition Fee**: Users must pay a flat fee of 100 `POT` to add a testimonial, preventing spamming of the platform with excessive testimonials.
-- **Testimonial Reward**: The testimonial owner is rewarded with 10 `POT` when their testimonial is upvoted by a whitelisted user, and similarly penalized with 10 `POT` when downvoted by a whitelisted user. All rewards and penalties are tracked in a reward pool, which can be claimed by the user once it reaches a minimum value of 50 `POT` (set for the MVP demo).
+- **<u>One-time Reward on Whitelist</u>**: Users are minted `1000 POT` tokens when they achieve a `Threshold` Gitcoin Passport Score and are added to the whitelist.
+- **<u>Testimonial Addition Fee</u>**: Users must pay a flat fee of `100 POT` to add a testimonial, preventing spamming of the platform with excessive testimonials.
+- **<u>Testimonial Reward</u>**: The testimonial owner is rewarded with `10 POT` when their testimonial is upvoted by a whitelisted user, and similarly penalized with `10 POT` when downvoted by a whitelisted user. All rewards and penalties are tracked in a reward pool, which can be claimed by the user once it reaches a minimum value of `50 POT` (set for the MVP demo).
 
-Currently, Proof of Testimonials allows users to add off-chain attestations on **Arweave** using **SignX**, as most attestations involve large data volumes that are not feasible to store on-chain. Additionally, since SignX has not yet launched on Non-Devnet, these attestations are selected by the Proof of Testimonials backend (which will be a set of validator nodes in the future), verified, and indexed on-chain for reward and punishment mechanics. As the validator nodes manage on-chain transactions, **Neon EVM** is used for the MVP demo, which offers fast processing and very low network fees.
+Currently, Proof of Testimonials allows users to add off-chain attestations on **<u>Arweave</u>** using **<u>SignX</u>**, as most attestations involve large data volumes that are not feasible to store on-chain. Additionally, since SignX has not yet launched on Non-Devnet, these attestations are selected by the Proof of Testimonials backend ( which will be a set of validator nodes in the future ), verified, and indexed on-chain for reward and punishment mechanics. As the validator nodes manage on-chain transactions, **<u>Neon EVM</u>** is used for the MVP demo, which offers fast processing and very low network fees.
 
 ## Built With
 
