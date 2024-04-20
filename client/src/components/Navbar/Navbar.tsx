@@ -55,7 +55,7 @@ const Navbar = () => {
         <div className="flex lg:flex-1">
           <Link to={'/'}>
             <span className="font-semibold text-gray-900 brand-name">
-              Proof Of Testimonial
+              Proof Of Testimonials
             </span>
           </Link>
         </div>

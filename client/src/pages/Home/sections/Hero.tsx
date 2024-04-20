@@ -25,8 +25,8 @@ export default function Hero() {
               Don't Just Trust, Verify
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              Bringing the power of on-chain attestation to your testimonials.
-              Ensuring every review is genuine and credible
+              Bringing the power of decentrealized verifiable attestations to
+              your testimonials. Ensuring every review is genuine and credible
             </p>
           </div>
         </div>

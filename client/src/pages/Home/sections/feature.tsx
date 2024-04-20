@@ -46,7 +46,8 @@ export default function Feature() {
           <p className="mt-6 text-lg leading-8 text-gray-600">
             Welcome to Proof Of Testimonials, where trust is built on-chain. Our
             platform ensures genuine testimonials and reviews for various
-            products, verified and secured using <b>SignX Attestations</b>
+            products, verified and secured using <b>SignX Attestations</b> and
+            incentivization using <b>Neon EVM</b>
           </p>
         </div>
         <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
