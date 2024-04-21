@@ -20,7 +20,7 @@ export const config = {
   },
   contract: {
     abi: abi,
-    address: '0x3311c551E1F45A2DD7f072ef0a8f2406DE7058bF',
+    address: '0x1028FE36D0AFe0cf1f9603E7165c0476c85eEcfe',
   },
   signX: {
     testimonialSchemaId: 'SPS_5GQyk-P8gyd1gX3_CW3Tk',
