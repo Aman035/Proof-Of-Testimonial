@@ -105,7 +105,7 @@ export const TestimonialCard = ({ testimonialId }: ITestimonialCard) => {
       }))
       await createVote(attestationId)
     } catch (error) {
-      alert('Error upvoting testimonial')
+      // alert('Error upvoting testimonial')
     }
   }
 
@@ -138,7 +138,7 @@ export const TestimonialCard = ({ testimonialId }: ITestimonialCard) => {
       }))
       await createVote(attestationId)
     } catch (error) {
-      alert('Error downvoting testimonial')
+      // alert('Error downvoting testimonial')
     }
   }
 

@@ -80,7 +80,7 @@ export const AddTestimonial = ({ productAttestationId }: IAddTestimonial) => {
       // refresh page
       window.location.reload()
     } catch (err) {
-      alert('Error submitting testimonial')
+      // alert('Error submitting testimonial')
     }
 
     setTestimonial('')
