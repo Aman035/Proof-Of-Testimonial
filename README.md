@@ -106,7 +106,7 @@ Currently, Proof of Testimonials allows users to add off-chain attestations on *
 ## Deployments
 
 - [DApp](proof-of-testimonials.vercel.app) ( Using Vercel )
-- [Contracts](https://neon-devnet.blockscout.com/address/0x3311c551E1F45A2DD7f072ef0a8f2406DE7058bF?tab=contact_code) ( Neon Devnet )
+- [Contracts](https://neon-devnet.blockscout.com/address/0x1028FE36D0AFe0cf1f9603E7165c0476c85eEcfe?tab=contact_code) ( Neon Devnet )
 - [Backend](https://proof-of-testimonials.onrender.com) ( Using Render )
 - SignX Schemas
   - [Profile](https://testnet-scan.sign.global/schema/SPS_zhkwtSjrbPAoC3eqW0hYV)
