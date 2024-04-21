@@ -72,9 +72,9 @@ export const AddTestimonial = ({ productAttestationId }: IAddTestimonial) => {
           productAttestationId,
           customSigner.address
         )
-      // await for 10 sec
+      // await for 15 sec
       // attestations tak some time to be indexed
-      await new Promise((resolve) => setTimeout(resolve, 10000))
+      await new Promise((resolve) => setTimeout(resolve, 15000))
       await createTestimonial(testimonialAttestationId)
       await new Promise((resolve) => setTimeout(resolve, 3000))
       // refresh page
